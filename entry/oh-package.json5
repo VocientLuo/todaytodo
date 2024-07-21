@@ -1,0 +1,13 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "@ohos/pulltorefresh": "^2.0.5",
+    "@ohmos/json-bigint": "^1.0.0"
+  }
+}
+
