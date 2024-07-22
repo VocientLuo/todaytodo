@@ -1,6 +1,7 @@
 import web_webview from '@ohos.web.webview';
 import router from '@ohos.router';
 import { TitleLayout } from '../widgets/TitleLayout';
+import LogUtils from '../common/LogUtils';
 
 @Entry
 @Component
@@ -9,6 +10,10 @@ export struct WebPage {
   private url: string = (router.getParams() as WebPageParams).url
   @State title: string = "加载中…"
   @State progress: number = 0
+
+  aboutToAppear(): void {
+    LogUtils.debug("web page url: " + this.url)
+  }
 
   onBackPress(): boolean | void {
     if (this.webController.accessBackward()) {

@@ -3,7 +3,8 @@
   "description": "Please describe the basic information.",
   "dependencies": {
     "json-bigint": "^1.0.0",
-    "@ohmos/json-bigint": "^1.0.0"
+    "@ohmos/json-bigint": "^1.0.0",
+    "dayjs": "^1.11.7"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.18",

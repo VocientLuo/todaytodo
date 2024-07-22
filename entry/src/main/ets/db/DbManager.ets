@@ -70,7 +70,7 @@ export class DbManager {
         reject()
         return
       }
-      this.store.insert(this.tbName, this.getValuesBucket(model), (err: BusinessError, rowId: number) => {
+      this.store.insert(this.tbName, this.getValuesBucket(model, true), (err: BusinessError, rowId: number) => {
         if (err) {
           LogUtils.error(`Failed to update data. Code:${err.code}, message:${err.message}`);
           reject()
@@ -167,7 +167,25 @@ export class DbManager {
     })
   }
 
-  getValuesBucket(model: TodoModel): relationalStore.ValuesBucket {
+  getValuesBucket(model: TodoModel, isAdd: boolean = false): relationalStore.ValuesBucket {
+    if (isAdd) {
+      let vb: relationalStore.ValuesBucket = {
+        text: model.text,
+        createTime: model.createTime,
+        modifyTime: model.modifyTime,
+        weight: model.weight,
+        status: model.status,
+        fontStyle: model.fontStyle,
+        imgUrl: model.imgUrl,
+        schedule: model.schedule,
+        wxRemind: model.wxRemind,
+        repeat: model.repeat,
+        planTime: model.planTime,
+        deleteState: model.deleteState,
+        serverId: model.serverId
+      }
+      return vb
+    }
     let values: relationalStore.ValuesBucket = {
       id: model.id,
       text: model.text,

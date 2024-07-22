@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "com.btk.today",
+    "bundleName": "com.beeteker.today",
     "vendor": "today todo",
     "versionCode": 1000000,
     "versionName": "1.0.0",

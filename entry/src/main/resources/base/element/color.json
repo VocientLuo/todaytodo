@@ -25,6 +25,18 @@
       "value": "#212121"
     },
     {
+      "name": "text_h6",
+      "value": "#666666"
+    },
+    {
+      "name": "text_h3",
+      "value": "#999999"
+    },
+    {
+      "name": "text_h4",
+      "value": "#cccccc"
+    },
+    {
       "name": "text_h2",
       "value": "#757575"
     },

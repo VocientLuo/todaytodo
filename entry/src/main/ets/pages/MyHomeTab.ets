@@ -1,4 +1,3 @@
-import hilog from '@ohos.hilog';
 import { PullToRefresh, PullToRefreshConfigurator } from '@ohos/pulltorefresh';
 import CollectUtils from '../common/CollectUtils';
 import { DbManager } from '../db/DbManager';
@@ -8,8 +7,9 @@ import { TodoStatus } from '../net/model/TodoStatus';
 import { ArticleItemComponent } from '../widgets/ArticleItemComponent';
 import { LoadState, PageLoading } from '../widgets/PageLoading';
 import ArrayList from '@ohos.util.ArrayList';
-import WindowUtils from '../common/WindowUtils';
 import { router } from '@kit.ArkUI';
+import { emitter } from '@kit.BasicServicesKit';
+import EventType from '../event/EventType';
 
 @Component
 export struct MyHomeTab {
@@ -26,6 +26,9 @@ export struct MyHomeTab {
   aboutToAppear() {
     this.refreshConfig.setHasRefresh(false);
     this.loadData();
+    emitter.on(EventType.UPDATE_EVENT, (data)=> {
+      this.loadData()
+    })
   }
 
   private loadData() {
@@ -64,7 +67,6 @@ export struct MyHomeTab {
           loadState: this.loadState,
           showLoading: this.showLoading,
           onReload: () => {
-            hilog.debug(0, MyHomeTab.TAG, "onReload");
             this.loadData();
           }
         }) {

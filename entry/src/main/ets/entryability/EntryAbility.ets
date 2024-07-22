@@ -1,18 +1,37 @@
-import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
+import { AbilityConstant, appManager, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import EntryContext from '../common/EntryContext';
 import WindowUtils from '../common/WindowUtils';
 import { DbManager } from '../db/DbManager';
+import bundleManager from '@ohos.bundle.bundleManager'
+import resourceManager from '@ohos.resourceManager';
+import { BusinessError } from '@kit.BasicServicesKit';
+import LogUtils from '../common/LogUtils';
+import featureAbility from '@ohos.ability.featureAbility';
+import AppConfig from '../common/AppConfig';
 
 
 export default class EntryAbility extends UIAbility {
   private static TAG: string = "EntryAbility"
 
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
-    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
-    EntryContext.setContext(this.context)
     DbManager.getInstance().init(this.context)
+    EntryContext.setContext(this.context)
+    this.initAppVersion()
+  }
+
+  private async initAppVersion() {
+    try {
+      let bundleInfo = await bundleManager.getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
+      AppConfig.appVersion = bundleInfo.versionName
+      AppConfig.pkgName = bundleInfo.name
+      let appName = this.context.resourceManager.getStringSync($r("app.string.app_name"))
+      AppConfig.appName = appName
+      AppConfig.initProtocolUrl()
+    } catch (e) {
+
+    }
   }
 
   onDestroy(): void {

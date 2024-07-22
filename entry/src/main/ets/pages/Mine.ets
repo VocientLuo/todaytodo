@@ -4,6 +4,8 @@ import Api from '../net/Api'
 import UserService, { User } from '../service/UserService'
 import { LoadState, PageLoading } from '../widgets/PageLoading'
 import { TitleLayout } from '../widgets/TitleLayout'
+import LogUtils from '../common/LogUtils'
+import AppConfig from '../common/AppConfig'
 
 class UserInfo {
   name: string = ""
@@ -82,36 +84,13 @@ export struct Mine {
           isJustShowStatusBar: true
         })
         Column() {
-          Image($r("app.media.harmony_os"))
+          Image($r("app.media.app_logo"))
             .width(100)
             .height(100)
           Text(this.userInfo.name)
             .fontColor($r("app.color.text_h1"))
             .fontSize(17)
             .margin({ top: 16 })
-          Row({ space: 5 }) {
-            Text("LV" + this.userInfo.level)
-              .fontColor($r("app.color.white"))
-              .fontSize(15)
-              .backgroundColor($r("app.color.green"))
-              .padding({
-                left: 4,
-                top: 2,
-                right: 4,
-                bottom: 2
-              })
-            Text("排名" + this.userInfo.rank)
-              .fontColor($r("app.color.white"))
-              .fontSize(15)
-              .backgroundColor($r("app.color.blue"))
-              .padding({
-                left: 4,
-                top: 2,
-                right: 4,
-                bottom: 2
-              })
-          }
-          .margin({ top: 16 })
         }
         .margin({ top: 30 })
         .alignItems(HorizontalAlign.Center)
@@ -120,13 +99,14 @@ export struct Mine {
         })
 
         Row() {
-          Text("我的积分")
+          Text("卡片设置")
             .layoutWeight(1)
             .fontSize(15)
             .fontColor($r("app.color.text_h1"))
-          Text(this.userInfo.point)
-            .fontSize(15)
-            .fontColor($r("app.color.text_h1"))
+          Image($r("app.media.ic_arrow_right"))
+            .fillColor($r("app.color.text_h1"))
+            .width(20)
+            .height(20)
         }
         .width('100%')
         .height(50)
@@ -135,7 +115,7 @@ export struct Mine {
         .padding({ left: 16, right: 16 })
         .backgroundColor($r("app.color.white"))
         .onClick((e) => {
-          UserService.get().checkLogin()
+          // UserService.get().checkLogin()
         })
 
         Row()
@@ -143,7 +123,7 @@ export struct Mine {
           .height(0.5)
           .backgroundColor($r("app.color.divider"))
         Row() {
-          Text("我的收藏")
+          Text("反馈建议")
             .layoutWeight(1)
             .fontSize(15)
             .fontColor($r("app.color.text_h1"))
@@ -158,8 +138,112 @@ export struct Mine {
         .padding({ left: 16, right: 16 })
         .backgroundColor($r("app.color.white"))
         .onClick((event) => {
-          UserService.get().checkLogin(() => {
-            router.pushUrl({ url: "pages/CollectList" })
+          // todo
+        })
+
+        Row()
+          .width('100%')
+          .height(0.5)
+          .backgroundColor($r("app.color.divider"))
+        Row() {
+          Text("联系客服")
+            .layoutWeight(1)
+            .fontSize(15)
+            .fontColor($r("app.color.text_h1"))
+          Image($r("app.media.ic_arrow_right"))
+            .fillColor($r("app.color.text_h1"))
+            .width(20)
+            .height(20)
+        }
+        .width('100%')
+        .height(50)
+        .alignItems(VerticalAlign.Center)
+        .padding({ left: 16, right: 16 })
+        .backgroundColor($r("app.color.white"))
+        .onClick((event) => {
+          router.pushUrl({
+            url: "pages/ConsumerPage"
+          })
+        })
+
+        Row()
+          .width('100%')
+          .height(0.5)
+          .backgroundColor($r("app.color.divider"))
+        Row() {
+          Text("用户协议")
+            .layoutWeight(1)
+            .fontSize(15)
+            .fontColor($r("app.color.text_h1"))
+          Image($r("app.media.ic_arrow_right"))
+            .fillColor($r("app.color.text_h1"))
+            .width(20)
+            .height(20)
+        }
+        .width('100%')
+        .height(50)
+        .alignItems(VerticalAlign.Center)
+        .padding({ left: 16, right: 16 })
+        .backgroundColor($r("app.color.white"))
+        .onClick((event) => {
+          router.pushUrl({
+            url: "pages/WebPage",
+            params: {
+              url: AppConfig.userProtectPath
+            }
+          })
+        })
+
+        Row()
+          .width('100%')
+          .height(0.5)
+          .backgroundColor($r("app.color.divider"))
+        Row() {
+          Text("隐私政策")
+            .layoutWeight(1)
+            .fontSize(15)
+            .fontColor($r("app.color.text_h1"))
+          Image($r("app.media.ic_arrow_right"))
+            .fillColor($r("app.color.text_h1"))
+            .width(20)
+            .height(20)
+        }
+        .width('100%')
+        .height(50)
+        .alignItems(VerticalAlign.Center)
+        .padding({ left: 16, right: 16 })
+        .backgroundColor($r("app.color.white"))
+        .onClick((event) => {
+          router.pushUrl({
+            url: "pages/WebPage",
+            params: {
+              url: AppConfig.privacyPath
+            }
+          })
+        })
+
+        Row()
+          .width('100%')
+          .height(0.5)
+          .backgroundColor($r("app.color.divider"))
+        Row() {
+          Text("关于")
+            .layoutWeight(1)
+            .fontSize(15)
+            .fontColor($r("app.color.text_h1"))
+          Image($r("app.media.ic_arrow_right"))
+            .fillColor($r("app.color.text_h1"))
+            .width(20)
+            .height(20)
+        }
+        .width('100%')
+        .height(50)
+        .alignItems(VerticalAlign.Center)
+        .padding({ left: 16, right: 16 })
+        .backgroundColor($r("app.color.white"))
+        .onClick((event) => {
+          router.pushUrl({
+            url: "pages/AboutPage"
           })
         })
 
