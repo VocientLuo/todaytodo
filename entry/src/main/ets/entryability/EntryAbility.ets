@@ -1,14 +1,10 @@
-import { AbilityConstant, appManager, UIAbility, Want } from '@kit.AbilityKit';
+import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import EntryContext from '../common/EntryContext';
 import WindowUtils from '../common/WindowUtils';
 import { DbManager } from '../db/DbManager';
-import bundleManager from '@ohos.bundle.bundleManager'
-import resourceManager from '@ohos.resourceManager';
-import { BusinessError } from '@kit.BasicServicesKit';
-import LogUtils from '../common/LogUtils';
-import featureAbility from '@ohos.ability.featureAbility';
+import bundleManager from '@ohos.bundle.bundleManager';
 import AppConfig from '../common/AppConfig';
 
 

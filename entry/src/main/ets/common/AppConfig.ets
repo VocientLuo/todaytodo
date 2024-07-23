@@ -4,7 +4,7 @@ export default class AppConfig {
   static appVersion: string = ""
   static pkgName: string = ""
 
-  static baseUrl: string = "https://api.beeteker.com/api/"
+  static baseUrl: string = "https://www.baidu.com/"
 
   static privacyPath: string = AppConfig.baseUrl + "privacy.html?channel=huawei&appName="
   static userProtectPath: string = AppConfig.baseUrl + "userProtect.html?channel=huawei&appName="
@@ -12,10 +12,9 @@ export default class AppConfig {
   static thirdProtocolPath: string = AppConfig.baseUrl + "protocolDetail.html?channel=huawei&appName="
 
   static initProtocolUrl() {
-    let pkgName = "com.beeteker.today"
-    AppConfig.privacyPath += pkgName
-    AppConfig.userProtectPath += pkgName
-    AppConfig.vipProtectPath += pkgName
-    AppConfig.thirdProtocolPath += pkgName
+    AppConfig.privacyPath += AppConfig.pkgName
+    AppConfig.userProtectPath += AppConfig.pkgName
+    AppConfig.vipProtectPath += AppConfig.pkgName
+    AppConfig.thirdProtocolPath += AppConfig.pkgName
   }
 }
