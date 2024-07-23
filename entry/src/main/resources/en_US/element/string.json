@@ -11,6 +11,30 @@
     {
       "name": "EntryAbility_label",
       "value": "$string:app_name"
+    },
+    {
+      "name": "EntryFormAbility_desc",
+      "value": "form_description"
+    },
+    {
+      "name": "EntryFormAbility_label",
+      "value": "form_label"
+    },
+    {
+      "name": "TodayTodo_desc",
+      "value": "This is a service widget."
+    },
+    {
+      "name": "TodayTodo_display_name",
+      "value": "TodayTodo"
+    },
+    {
+      "name": "card_list_title",
+      "value": "Title"
+    },
+    {
+      "name": "card_list_content",
+      "value": "Introduction"
     }
   ]
 }

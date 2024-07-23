@@ -79,6 +79,14 @@
     {
       "name": "hot_key_bg",
       "value": "#DDDDDD"
+    },
+    {
+      "name": "card_list_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "list_item_count_background",
+      "value": "#290a59f7"
     }
   ]
 }

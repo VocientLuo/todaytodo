@@ -4,7 +4,6 @@ import Api from '../net/Api'
 import UserService, { User } from '../service/UserService'
 import { LoadState, PageLoading } from '../widgets/PageLoading'
 import { TitleLayout } from '../widgets/TitleLayout'
-import LogUtils from '../common/LogUtils'
 import AppConfig from '../common/AppConfig'
 
 class UserInfo {
@@ -90,9 +89,10 @@ export struct Mine {
           Text(this.userInfo.name)
             .fontColor($r("app.color.text_h1"))
             .fontSize(17)
+            .visibility(Visibility.None)
             .margin({ top: 16 })
         }
-        .margin({ top: 30 })
+        .margin({ top: 30 , bottom: 30})
         .alignItems(HorizontalAlign.Center)
         .onClick((e) => {
           UserService.get().checkLogin()
@@ -114,6 +114,7 @@ export struct Mine {
         .alignItems(VerticalAlign.Center)
         .padding({ left: 16, right: 16 })
         .backgroundColor($r("app.color.white"))
+        .visibility(Visibility.None)
         .onClick((e) => {
           // UserService.get().checkLogin()
         })
@@ -137,6 +138,7 @@ export struct Mine {
         .alignItems(VerticalAlign.Center)
         .padding({ left: 16, right: 16 })
         .backgroundColor($r("app.color.white"))
+        .visibility(Visibility.None)
         .onClick((event) => {
           // todo
         })
@@ -160,6 +162,7 @@ export struct Mine {
         .alignItems(VerticalAlign.Center)
         .padding({ left: 16, right: 16 })
         .backgroundColor($r("app.color.white"))
+        .visibility(Visibility.None)
         .onClick((event) => {
           router.pushUrl({
             url: "pages/ConsumerPage"

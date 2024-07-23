@@ -12,9 +12,10 @@ export default class AppConfig {
   static thirdProtocolPath: string = AppConfig.baseUrl + "protocolDetail.html?channel=huawei&appName="
 
   static initProtocolUrl() {
-    AppConfig.privacyPath += AppConfig.pkgName
-    AppConfig.userProtectPath += AppConfig.pkgName
-    AppConfig.vipProtectPath += AppConfig.pkgName
-    AppConfig.thirdProtocolPath += AppConfig.pkgName
+    let pkgName = "com.beeteker.today"
+    AppConfig.privacyPath += pkgName
+    AppConfig.userProtectPath += pkgName
+    AppConfig.vipProtectPath += pkgName
+    AppConfig.thirdProtocolPath += pkgName
   }
 }
