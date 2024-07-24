@@ -2,29 +2,16 @@
   "app": {
     "signingConfigs": [
       {
-        "name": "beeteker",
-        "type": "HarmonyOS",
-        "material": {
-          "certpath": "G:/workspace/harmony/keystore/比特克证书.cer",
-          "storePassword": "0000001C465A832314DE949EA99F552F8A8A5C480B011AAE2EADC411059D4490478ED9BE10F631ADEA045C5B",
-          "keyAlias": "beeteker",
-          "keyPassword": "0000001CB44AD0ECD39F7EAE005DD18E042088A9F8419B353822F91062646D681BDDF603467DC7373E457C94",
-          "profile": "G:/workspace/harmony/keystore/btk_releaseRelease.p7b",
-          "signAlg": "SHA256withECDSA",
-          "storeFile": "G:/workspace/harmony/keystore/.p12"
-        }
-      },
-      {
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "storePassword": "0000001C9D5D0D39EACBFCC27427BCB4EDA582DD7FAECA4F4F1B7F12C3A289C1BED9CAF52E8729E72CBED3E9",
-          "certpath": "G:/workspace/harmony/keystore/比特克证书.cer",
+          "storePassword": "0000001C6310D593D2855C951161958F9E6C39DC48E0695B31D3DCFBBF96A15FB0C82A856C442914BA5F0506",
+          "certpath": "G:/workspace/harmony/key/btk.cer",
           "keyAlias": "beeteker",
-          "keyPassword": "0000001C9B88FA4E846427CFE79170A9962FD57D4E0A3D992A7552A49BB7A535E88BEE8A7F19F0070C890B75",
-          "profile": "G:/workspace/harmony/keystore/btk_releaseRelease.p7b",
+          "keyPassword": "0000001C2AE2E2876925A961539895F694C91A8DB26970CD7468D538A78781C1CFD3DF39F4296C93F5B50E0E",
+          "profile": "G:/workspace/harmony/key/btkRelease.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "G:/workspace/harmony/keystore/.p12"
+          "storeFile": "G:/workspace/harmony/key/.p12"
         }
       }
     ],
@@ -35,12 +22,6 @@
         "compatibleSdkVersion": "5.0.0(12)",
         "runtimeOS": "HarmonyOS",
       },
-      {
-        "name": "beeteker",
-        "signingConfig": "beeteker",
-        "compatibleSdkVersion": "5.0.0(12)",
-        "runtimeOS": "HarmonyOS",
-      }
     ],
     "buildModeSet": [
       {
@@ -60,7 +41,6 @@
           "name": "default",
           "applyToProducts": [
             "default",
-            "beeteker"
           ]
         }
       ]
