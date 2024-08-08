@@ -2,8 +2,6 @@
   "src": [
     "pages/Index",
     "pages/EditPage",
-    "pages/WebPage",
-    "pages/ConsumerPage",
-    "pages/AboutPage"
+    "pages/CardSettingPage"
   ]
 }

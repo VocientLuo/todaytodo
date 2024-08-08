@@ -1,0 +1,12 @@
+{
+  "string": [
+    {
+      "name": "page_show",
+      "value": "page from package"
+    },
+    {
+      "name": "internet_permission_reason",
+      "value": "获取网络数据"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import TodoModel from '../db/TodoModel'
 import router from '@ohos.router';
-import { TitleLayout } from '../widgets/TitleLayout';
-import { toast } from '../common/Toast';
+import { TitleLayout } from 'LibUser/src/main/ets/widgets/TitleLayout'
+import { toast } from 'LibUser/src/main/ets/commons/Toast';
 import { DbManager } from '../db/DbManager';
 import { emitter } from '@kit.BasicServicesKit';
 import EventType from '../event/EventType';

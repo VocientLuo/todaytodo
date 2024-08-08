@@ -7,7 +7,8 @@
   "license": "",
   "dependencies": {
     "@ohos/pulltorefresh": "^2.0.5",
-    "@ohmos/json-bigint": "^1.0.0"
+    "@ohmos/json-bigint": "^1.0.0",
+    LibUser: "file:../module_user"
   }
 }
 

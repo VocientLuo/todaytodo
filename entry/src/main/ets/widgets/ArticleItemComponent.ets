@@ -1,6 +1,5 @@
 import { DbManager } from '../db/DbManager';
 import TodoModel from '../db/TodoModel';
-import { Article} from '../net/model/Article';
 import { TodoStatus } from '../net/model/TodoStatus';
 import { emitter } from '@kit.BasicServicesKit';
 import EventType from '../event/EventType';
@@ -10,7 +9,7 @@ import { promptAction, router } from '@kit.ArkUI';
 @Component
 export struct ArticleItemComponent {
   article: TodoModel = new TodoModel();
-  onCollectClick?: (article: Article) => void;
+  onCollectClick?: (article: TodoModel) => void;
 
   @State checkResource: Resource = $r("app.media.square")
 

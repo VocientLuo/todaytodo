@@ -1,0 +1,11 @@
+{
+  "src": [
+    "pages/AboutPage",
+    "pages/ConsumerPage",
+    "pages/LaunchPage",
+    "pages/LoginPhonePage",
+    "pages/RegisterPage",
+    "pages/UserInfoPage",
+    "pages/WebPage"
+  ]
+}

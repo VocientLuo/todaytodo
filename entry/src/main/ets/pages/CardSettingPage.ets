@@ -2,8 +2,8 @@ import { TodoStatus } from '../net/model/TodoStatus';
 import { LoadState } from 'LibUser/src/main/ets/widgets/PageLoading';
 import { MyHomeTab } from './MyHomeTab';
 
-@Component
-export struct MyHome {
+@Entry
+export struct CardSettingPage {
   @State loadState: LoadState = LoadState.LOADING;
   @State showLoading: boolean = false;
   @State tabStatus: TodoStatus[] = [new TodoStatus(TodoStatus.TODAY, "今日事"), new TodoStatus(TodoStatus.HISTORY, "往日事"), new TodoStatus(TodoStatus.DELETED, "已删除"),]
