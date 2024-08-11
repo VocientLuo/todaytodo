@@ -22,11 +22,11 @@
     },
     {
       "name": "TodayTodo_desc",
-      "value": "This is a service widget."
+      "value": "今日事."
     },
     {
       "name": "TodayTodo_display_name",
-      "value": "TodayTodo"
+      "value": "今日事"
     },
     {
       "name": "card_list_title",

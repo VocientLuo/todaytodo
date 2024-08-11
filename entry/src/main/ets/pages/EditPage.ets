@@ -6,6 +6,8 @@ import { DbManager } from '../db/DbManager';
 import { emitter } from '@kit.BasicServicesKit';
 import EventType from '../event/EventType';
 import DateUtils from '../common/DateUtils';
+import { CardManager } from '../entryformability/CardManager';
+import LogUtils from '../common/LogUtils';
 
 @Entry
 @Component
@@ -98,6 +100,8 @@ struct EditPage {
   private editSuccess(msg: string) {
     toast(msg)
     emitter.emit(EventType.UPDATE_EVENT, EventType.EVENT_DATA)
+    LogUtils.debug("edit todo to update card")
+    CardManager.get().updateCard()
     router.back()
   }
 }

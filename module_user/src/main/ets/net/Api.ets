@@ -37,27 +37,21 @@ async function requestSync<T>(path: string, method: http.RequestMethod, extraDat
         method: method,
         expectDataType: http.HttpDataType.OBJECT,
         header: headers,
-        extraData: extraData
+        extraData: JSON.stringify(extraData, undefined, undefined)
       },
       (err, data) => {
-        console.log(data.toString())
         const res = new Response<T>()
-        if (!err && data.responseCode === 200) {
-          console.log(data.resultType.toString())
+        if (!err && data && data.responseCode === 200) {
           if (data.resultType === http.HttpDataType.STRING) {
-            console.log('-------string---------')
             const result: Response<T> = JSON.parse(data);
             res.errorCode = result.errorCode;
             res.errorMsg = result.errorMsg;
             res.result = result.result;
           } else if (data.resultType === http.HttpDataType.OBJECT) {
-            console.log('-------object---------')
             let dataResult: string = JSON.stringify(data.result, undefined, undefined)
-            console.log(dataResult)
             const result: Response<T> = JSON.parse(dataResult);
             res.errorCode = result.errorCode;
             res.errorMsg = result.errorMsg;
-            console.log("response t: " + JSON.stringify(result.result, undefined, undefined))
             res.result = result.result;
           } else {
             res.errorCode = -1
@@ -95,9 +89,9 @@ export default class Api {
   }
 
   // 获取用户信息
-  async getUserInfo(): Promise<Response<User>> {
+  async getUserInfo(uuid: string): Promise<Response<User>> {
     let model = new BaseModel()
-    model.uuid = AppConfig.getUserId()
+    model.uuid = uuid
     return requestSync(`getUserInfoOne`, POST, model);
   }
 

@@ -1,32 +1,67 @@
 import { formBindingData, FormExtensionAbility, formInfo } from '@kit.FormKit';
 import { Want } from '@kit.AbilityKit';
+import TodoModel from '../db/TodoModel';
+import { CardManager, FormDataClass } from './CardManager';
+import LogUtils from '../common/LogUtils';
+import { DbManager } from '../db/DbManager';
+import TodoStatus from '../net/model/TodoStatus';
 
 export default class EntryFormAbility extends FormExtensionAbility {
   onAddForm(want: Want) {
     // Called to return a FormBindingData object.
-    let formData = '';
-    return formBindingData.createFormBindingData(formData);
+    this.updateFormId(want)
+    let data = new FormDataClass()
+    data.cardListData = []
+    return formBindingData.createFormBindingData(data);
   }
 
   onCastToNormalForm(formId: string) {
-    // Called when the form provider is notified that a temporary form is successfully
-    // converted to a normal form.
+
   }
 
   onUpdateForm(formId: string) {
-    // Called to notify the form provider to update a specified form.
+    CardManager.get().updateCard(this.context, formId)
   }
 
   onFormEvent(formId: string, message: string) {
-    // Called when a specified message event defined by the form provider is triggered.
+    LogUtils.debug("on from event: " + message)
+    if (message) {
+      let data: object = JSON.parse(message)
+      // 处理待办
+      if (data['type'] == CardManager.EVENT_DONE) {
+        LogUtils.debug("done todo")
+        let model: TodoModel = JSON.parse(JSON.stringify(data["item"]))
+        DbManager.getInstanceAsync(this.context, (db)=> {
+          model.status = TodoStatus.HISTORY
+          db.update(model)
+          CardManager.get().updateCard(this.context, formId)
+          LogUtils.debug("update card success")
+        })
+      } else if (data['type'] == CardManager.EVENT_ADD) {
+        // 添加待办
+        LogUtils.debug("add todo event")
+      } else {
+        LogUtils.debug("enter todo main page")
+      }
+    }
   }
 
   onRemoveForm(formId: string) {
-    // Called to notify the form provider that a specified form has been destroyed.
+    // CardManager.clearCardId()
+  }
+
+  private updateFormId(want: Want) {
+    let formId: string = '';
+    if (want.parameters) {
+      formId = JSON.stringify(want.parameters[formInfo.FormParam.IDENTITY_KEY]);
+      LogUtils.debug("----------update formId: " + formId)
+      CardManager.get().updateCard(this.context, formId)
+    }
+
   }
 
   onAcquireFormState(want: Want) {
-    // Called to return a {@link FormState} object.
+    this.updateFormId(want)
     return formInfo.FormState.READY;
   }
 };

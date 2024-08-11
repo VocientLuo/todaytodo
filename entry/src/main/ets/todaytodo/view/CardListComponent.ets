@@ -26,6 +26,10 @@ export struct CardListComponent {
       Stack({ alignContent: Alignment.Bottom }) {
         Column({ space: FlexAlign.Start }) {
           Row() {
+            // Image(this.cardListParameter.logo)
+            //   .width($r('app.float.list_logo_size'))
+            //   .height($r('app.float.list_logo_size'))
+            //   .margin({ right: 10 })
             Row() {
               Text(this.cardListParameter.title)
                 .fontSize($r('app.float.list_title_font_size'))
@@ -35,25 +39,20 @@ export struct CardListComponent {
                 .padding({ right: $r('app.float.list_title_padding_right') })
                 .maxLines(1)
                 .textOverflow({ overflow: TextOverflow.Ellipsis })
-
-              if (this.cardListParameter.isItemCount && this.cardListParameter.itemCount) {
-                Text(this.cardListParameter.itemCount > this.MAX_QUANTITY
-                  ? '99+' : this.cardListParameter.itemCount + '')
-                  .textAlign(TextAlign.Center)
-                  .fontSize($r('app.float.item_count_font_size'))
-                  .fontWeight(FontWeight.Medium)
-                  .fontColor(this.cardListParameter.itemCountColor)
-                  .backgroundColor(this.cardListParameter.itemCountBackgroundColor)
-                  .width($r('app.float.item_count_width'))
-                  .height($r('app.float.item_count_height'))
-                  .borderRadius($r('app.float.item_count_radius'))
-              }
+              Text(this.cardListParameter.itemCount! > this.MAX_QUANTITY
+                ? '99+' : this.cardListParameter.itemCount + '')
+                .textAlign(TextAlign.Center)
+                .fontSize($r('app.float.item_count_font_size'))
+                .fontWeight(FontWeight.Medium)
+                .fontColor(this.cardListParameter.itemCountColor)
+                .backgroundColor(this.cardListParameter.itemCountBackgroundColor)
+                .width($r('app.float.item_count_width'))
+                .height($r('app.float.item_count_height'))
+                .borderRadius($r('app.float.item_count_radius'))
             }.layoutWeight(1)
-
-            Image(this.cardListParameter.logo)
-              .width($r('app.float.list_logo_size'))
-              .height($r('app.float.list_logo_size'))
-              .margin({ left: $r('app.float.icon_margin') })
+            Image(this.cardListParameter.bottomIcon)
+              .width($r('app.float.bottom_icon_size'))
+              .height($r('app.float.bottom_icon_size'))
           }
           .width(this.FULL_WIDTH_PERCENT)
           .alignItems(VerticalAlign.Top)
@@ -84,7 +83,7 @@ export struct CardListComponent {
               .hitTestBehavior(HitTestMode.None)
           }
 
-          if (this.cardListParameter.isBottomIcon) {
+          if (!this.cardListParameter.isBottomIcon) {
             Image(this.cardListParameter.bottomIcon)
               .width($r('app.float.bottom_icon_size'))
               .height($r('app.float.bottom_icon_size'))

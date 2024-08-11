@@ -1,24 +1,24 @@
-import { AbilityConstant, appManager, UIAbility, Want } from '@kit.AbilityKit';
+import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { window } from '@kit.ArkUI';
-import EntryContext from '../common/EntryContext';
-import WindowUtils from '../common/WindowUtils';
+import { router, window } from '@kit.ArkUI';
+import EntryContext from 'LibUser/src/main/ets/commons/EntryContext';
+import WindowUtils from 'LibUser/src/main/ets/commons/WindowUtils';
 import { DbManager } from '../db/DbManager';
-import bundleManager from '@ohos.bundle.bundleManager'
-import resourceManager from '@ohos.resourceManager';
-import { BusinessError } from '@kit.BasicServicesKit';
+import bundleManager from '@ohos.bundle.bundleManager';
+import AppConfig from 'LibUser/src/main/ets/commons/AppConfig';
+import {MMKV} from '@tencent/mmkv';
+import { emitter } from '@kit.BasicServicesKit';
+import { CardManager } from '../entryformability/CardManager';
 import LogUtils from '../common/LogUtils';
-import featureAbility from '@ohos.ability.featureAbility';
-import AppConfig from '../common/AppConfig';
+
+import('LibUser/./src/main/ets/pages/LaunchPage')
 
 
 export default class EntryAbility extends UIAbility {
   private static TAG: string = "EntryAbility"
 
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
-    DbManager.getInstance().init(this.context)
-    EntryContext.setContext(this.context)
-    this.initAppVersion()
+
   }
 
   private async initAppVersion() {
@@ -26,39 +26,43 @@ export default class EntryAbility extends UIAbility {
       let bundleInfo = await bundleManager.getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
       AppConfig.appVersion = bundleInfo.versionName
       AppConfig.pkgName = bundleInfo.name
+      console.log("app package name: " + AppConfig.pkgName)
       let appName = this.context.resourceManager.getStringSync($r("app.string.app_name"))
       AppConfig.appName = appName
-      AppConfig.initProtocolUrl()
     } catch (e) {
-
+      console.log(e)
     }
   }
 
   onDestroy(): void {
-    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onDestroy');
+
   }
 
   async onWindowStageCreate(windowStage: window.WindowStage): Promise<void> {
     // Main window is created, set main page for this ability
-    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
-
-    windowStage.loadContent('pages/Index', (err) => {
+    DbManager.getInstance().init(this.context)
+    EntryContext.setContext(this.context)
+    this.initAppVersion()
+    const windowClass = await windowStage.getMainWindow();
+    hilog.info(0x0000, EntryAbility.TAG,
+      'Succeeded in obtaining the main window. Data: ' + JSON.stringify(windowClass));
+    windowClass.setWindowLayoutFullScreen(true);
+    WindowUtils.init(windowClass);
+    this.initSDK()
+    windowStage.loadContentByName('LaunchPage', (err) => {
       if (err.code) {
         hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
         return;
       }
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content.');
     });
+  }
 
-    const windowClass = await windowStage.getMainWindow();
-    hilog.info(0x0000, EntryAbility.TAG,
-      'Succeeded in obtaining the main window. Data: ' + JSON.stringify(windowClass));
-    windowClass.setWindowLayoutFullScreen(true);
-    WindowUtils.init(windowClass);
-
-    const data = await windowStage.loadContent('pages/Index');
-    hilog.info(0x0000, EntryAbility.TAG, 'Succeeded in loading the content. Data: %{public}s',
-      JSON.stringify(data) ?? '');
+  private initSDK() {
+    // mmkv
+    let appCtx = this.context.getApplicationContext();
+    let mmkvRootDir: string = MMKV.initialize(appCtx);
+    console.info('mmkv rootDir: ', mmkvRootDir);
   }
 
   onWindowStageDestroy(): void {

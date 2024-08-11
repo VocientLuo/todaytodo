@@ -1,7 +1,7 @@
 import { PullToRefresh, PullToRefreshConfigurator } from '@ohos/pulltorefresh';
 import { DbManager } from '../db/DbManager';
 import TodoModel from '../db/TodoModel';
-import { TodoStatus } from '../net/model/TodoStatus';
+import TodoStatus from '../net/model/TodoStatus';
 import { ArticleItemComponent } from '../widgets/ArticleItemComponent';
 import { LoadState, PageLoading } from 'LibUser/src/main/ets/widgets/PageLoading';
 import ArrayList from '@ohos.util.ArrayList';

@@ -140,7 +140,6 @@ export struct LoginPhonePage {
         if (res.errorCode == 200) {
           toast("登录成功")
           UserService.get().setUser(res.result)
-          AppConfig.userInfo = res.result
           router.back()
         }
       })

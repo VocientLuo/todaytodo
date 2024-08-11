@@ -1,4 +1,4 @@
-import { TodoStatus } from '../net/model/TodoStatus';
+import TodoStatus from '../net/model/TodoStatus';
 import { LoadState } from 'LibUser/src/main/ets/widgets/PageLoading';
 import { MyHomeTab } from './MyHomeTab';
 

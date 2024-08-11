@@ -1,10 +1,11 @@
 import { DbManager } from '../db/DbManager';
 import TodoModel from '../db/TodoModel';
-import { TodoStatus } from '../net/model/TodoStatus';
+import TodoStatus from '../net/model/TodoStatus';
 import { emitter } from '@kit.BasicServicesKit';
 import EventType from '../event/EventType';
 import LogUtils from '../common/LogUtils';
 import { promptAction, router } from '@kit.ArkUI';
+import { CardManager } from '../entryformability/CardManager';
 
 @Component
 export struct ArticleItemComponent {
@@ -99,6 +100,7 @@ export struct ArticleItemComponent {
     }).then((resp) => {
       if (resp.index === 0) {
         this.deleteDB()
+        CardManager.get().updateCard()
       }
     })
   }
@@ -121,6 +123,7 @@ export struct ArticleItemComponent {
       if (resp.index === 0) {
         this.article.status = TodoStatus.DELETED
         this.updateDB()
+        CardManager.get().updateCard()
       }
     })
   }
@@ -132,6 +135,7 @@ export struct ArticleItemComponent {
       this.article.status = TodoStatus.HISTORY
     }
     this.updateDB()
+    CardManager.get().updateCard()
   }
 
   private updateDB() {

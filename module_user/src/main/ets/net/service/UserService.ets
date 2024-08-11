@@ -6,15 +6,12 @@ import Preferences from '../../commons/Preferences';
 import { User } from '../model/User';
 
 export default class UserService {
-  private static instance: UserService
+  private static instance: UserService = new UserService()
   private static TAG = "UserService"
   private user?: User
   private userObservers: ((user?: User) => void)[] = []
 
   static get(): UserService {
-    if (UserService.instance === undefined) {
-      UserService.instance = new UserService()
-    }
     return UserService.instance
   }
 
@@ -76,8 +73,8 @@ export default class UserService {
   }
 
   async updateUser(): Promise<User> {
-    if (this.isLogin()) {
-      const res = await Api.get().getUserInfo()
+    if (this.isLogin() && this.user?.uuid) {
+      const res = await Api.get().getUserInfo(this.user?.uuid)
       if (res.isSuccessWithData()) {
         const user = this.user!!;
         this.setUser(user);

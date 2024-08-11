@@ -1,18 +1,38 @@
 import router from '@ohos.router';
 import { TitleLayout } from '../widgets/TitleLayout';
-import AppConfig from '../commons/AppConfig';
 import UserService from '../net/service/UserService';
 import { toast } from '../commons/Toast';
 import Api from '../net/Api';
 import { promptAction } from '@kit.ArkUI';
+import { User } from '../net/model/User';
 
 @Entry({routeName: "UserInfoPage"})
 @Component
 export struct UserInfoPage {
   @State title: string = "用户中心"
 
-  aboutToAppear(): void {
+  @State userHeader: Resource | string = $r("app.media.icon_default_avatar")
+  @State userName: string = "未登录"
 
+  private userObserver = (user?: User) => {
+    if (user) {
+      this.userName = user.username
+      if (user.avatar) {
+        this.userHeader = user.avatar
+      }
+    } else {
+      this.userName = "未登录"
+    }
+  }
+
+  aboutToAppear() {
+    UserService.get().addUserObserver(this.userObserver);
+    const user = UserService.get().getUser();
+    this.userObserver(user);
+  }
+
+  aboutToDisappear() {
+    UserService.get().removeUserObserver(this.userObserver);
   }
 
   build() {
@@ -24,15 +44,15 @@ export struct UserInfoPage {
         }
       })
       Column() {
-        if (AppConfig.getUserInfo()) {
-          Image($r("app.media.app_logo"))
+        if (UserService.get().isLogin()) {
+          Image(this.userHeader)
             .width(80)
             .height(80)
-          Text(AppConfig.getUserInfo()?.username)
+          Text(this.userName)
             .fontColor($r("app.color.text_h1"))
             .fontSize(14)
             .margin({ top: 10 })
-          Text(`ID: ${AppConfig.getUserInfo()?.uuid}`)
+          Text(`ID: ${UserService.get().getUser()?.uuid}`)
             .fontColor($r("app.color.text_h1"))
             .fontSize(12)
 
@@ -93,11 +113,15 @@ export struct UserInfoPage {
         }
       ]
     }).then((resp) => {
+      UserService.get().getUser()!.deviceModel = "HARMONY"
+      UserService.get().getUser()!.deviceType = "PHONE"
       Api.get().loginExit(UserService.get().getUser()!).then(res => {
         if (res.errorCode == 200) {
           UserService.get().clearUser();
           toast("注销成功")
           router.back()
+        } else {
+          toast("操作失败，请重试")
         }
       })
     })

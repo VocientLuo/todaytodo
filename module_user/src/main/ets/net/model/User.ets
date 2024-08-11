@@ -1,7 +1,7 @@
 
 export class User {
   appName: string = ""
-  deviceModel: string = "ANDROID"
+  deviceModel: string = "HARMONY"
   deviceType: string = "PHONE"
   password: string = ""
   sign: string = ""

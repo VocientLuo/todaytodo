@@ -149,7 +149,6 @@ export struct RegisterPage {
         if (res.errorCode == 200) {
           toast("注册成功")
           UserService.get().setUser(res.result)
-          AppConfig.userInfo = res.result
           router.back()
         } else {
           toast(res.errorMsg)

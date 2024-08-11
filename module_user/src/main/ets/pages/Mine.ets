@@ -18,11 +18,15 @@ export struct Mine {
   @State title: string = "";
 
   @State isLogin: boolean = false;
+  @State userHeader: Resource | string = $r("app.media.icon_default_avatar")
   @State userName: string = "未登录,点击登录"
   private userObserver = (user?: User) => {
     if (user) {
       this.isLogin = true;
       this.userName = user.username
+      if (user.avatar) {
+        this.userHeader = user.avatar
+      }
     } else {
       this.isLogin = false;
       this.userName = "未登录,点击登录"
@@ -51,9 +55,10 @@ export struct Mine {
           isJustShowStatusBar: true
         })
         Column() {
-          Image($r("app.media.app_logo"))
+          Image(this.userHeader)
             .width(80)
             .height(80)
+            .padding(3)
           Text(this.userName)
             .fontColor($r("app.color.text_h1"))
             .fontSize(17)
