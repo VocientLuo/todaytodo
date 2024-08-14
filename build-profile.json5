@@ -6,25 +6,12 @@
         "type": "HarmonyOS",
         "material": {
           "certpath": "C:\\Users\\Administrator\\.ohos\\config\\default_harmoney_cU5w9FSk2Z2ciGYldYWP2n0brkzXrvdDIBofmluNCy4=.cer",
-          "storePassword": "0000001B27247351C90A50086483E52CA3ACC0C340DC9B1F8B7F5F22252903419708F97B99AA1C71ACF36D",
+          "storePassword": "0000001B97B667F319A89DD659F3D51F909C807BE5113A144790C0C41562C599CC65F5321DCF77AC220AF5",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BE5B3FF76F5C11AD6A23C3B394FC8EF5D0AF2B2673FD68CA202DDBC89F0AF1D864B04B5395715C7",
+          "keyPassword": "0000001B0119204277324DA233D7DCCD678BF7020855C38657869316C3F8E45577C2E86680C4C8B68AF989",
           "profile": "C:\\Users\\Administrator\\.ohos\\config\\default_harmoney_cU5w9FSk2Z2ciGYldYWP2n0brkzXrvdDIBofmluNCy4=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "C:\\Users\\Administrator\\.ohos\\config\\default_harmoney_cU5w9FSk2Z2ciGYldYWP2n0brkzXrvdDIBofmluNCy4=.p12"
-        }
-      },
-      {
-        "name": "beeteker",
-        "type": "HarmonyOS",
-        "material": {
-          "certpath": "C:\\Users\\Administrator\\.ohos\\config\\beeteker_harmoney_cU5w9FSk2Z2ciGYldYWP2n0brkzXrvdDIBofmluNCy4=.cer",
-          "storePassword": "0000001B8219790FC1247E70885089BB6DC320B857E1505D454D112A0ADB963EC622445932DB8C6391FEBB",
-          "keyAlias": "debugKey",
-          "keyPassword": "0000001BAED2F36E159F1F68B98FAF1F3A59208FFCF0722E35F5205E15BBB5C2D95A900FDA586EA5BEBF57",
-          "profile": "C:\\Users\\Administrator\\.ohos\\config\\beeteker_harmoney_cU5w9FSk2Z2ciGYldYWP2n0brkzXrvdDIBofmluNCy4=.p7b",
-          "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\Administrator\\.ohos\\config\\beeteker_harmoney_cU5w9FSk2Z2ciGYldYWP2n0brkzXrvdDIBofmluNCy4=.p12"
         }
       }
     ],
@@ -34,7 +21,7 @@
         "signingConfig": "default",
         "compatibleSdkVersion": "5.0.0(12)",
         "runtimeOS": "HarmonyOS",
-      }
+      },
     ],
     "buildModeSet": [
       {
@@ -53,10 +40,14 @@
         {
           "name": "default",
           "applyToProducts": [
-            "default"
+            "default",
           ]
         }
       ]
+    },
+    {
+      "name": "module_user",
+      "srcPath": "./module_user",
     }
   ]
 }

@@ -1,16 +1,16 @@
 import { DbManager } from '../db/DbManager';
 import TodoModel from '../db/TodoModel';
-import { Article} from '../net/model/Article';
-import { TodoStatus } from '../net/model/TodoStatus';
+import TodoStatus from '../net/model/TodoStatus';
 import { emitter } from '@kit.BasicServicesKit';
 import EventType from '../event/EventType';
 import LogUtils from '../common/LogUtils';
 import { promptAction, router } from '@kit.ArkUI';
+import { CardManager } from '../entryformability/CardManager';
 
 @Component
 export struct ArticleItemComponent {
   article: TodoModel = new TodoModel();
-  onCollectClick?: (article: Article) => void;
+  onCollectClick?: (article: TodoModel) => void;
 
   @State checkResource: Resource = $r("app.media.square")
 
@@ -29,15 +29,15 @@ export struct ArticleItemComponent {
     Column() {
       Row(){
         Image(this.checkResource)
-          .width(20)
-          .height(20)
+          .width($r('app.float.item_image_size'))
+          .height($r('app.float.item_image_size'))
           .objectFit(ImageFit.Contain)
           .onClick(e => {
             this.onCheck()
           })
         Text(this.article.text)
           .fontColor($r("app.color.text_h1"))
-          .fontSize(15)
+          .fontSize($r('app.float.item_content_font_size'))
           .maxLines(2)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
           .layoutWeight(1)
@@ -100,6 +100,7 @@ export struct ArticleItemComponent {
     }).then((resp) => {
       if (resp.index === 0) {
         this.deleteDB()
+        CardManager.get().updateCard()
       }
     })
   }
@@ -122,6 +123,7 @@ export struct ArticleItemComponent {
       if (resp.index === 0) {
         this.article.status = TodoStatus.DELETED
         this.updateDB()
+        CardManager.get().updateCard()
       }
     })
   }
@@ -133,6 +135,7 @@ export struct ArticleItemComponent {
       this.article.status = TodoStatus.HISTORY
     }
     this.updateDB()
+    CardManager.get().updateCard()
   }
 
   private updateDB() {

@@ -18,8 +18,7 @@
       "updateDuration": 1,
       "defaultDimension": "2*4",
       "supportDimensions": [
-        "2*4",
-        "4*4"
+        "2*4"
       ]
     }
   ]

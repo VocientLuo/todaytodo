@@ -1,11 +1,9 @@
 import { PullToRefresh, PullToRefreshConfigurator } from '@ohos/pulltorefresh';
-import CollectUtils from '../common/CollectUtils';
 import { DbManager } from '../db/DbManager';
 import TodoModel from '../db/TodoModel';
-import { Article } from '../net/model/Article';
-import { TodoStatus } from '../net/model/TodoStatus';
+import TodoStatus from '../net/model/TodoStatus';
 import { ArticleItemComponent } from '../widgets/ArticleItemComponent';
-import { LoadState, PageLoading } from '../widgets/PageLoading';
+import { LoadState, PageLoading } from 'LibUser/src/main/ets/widgets/PageLoading';
 import ArrayList from '@ohos.util.ArrayList';
 import { router } from '@kit.ArkUI';
 import { emitter } from '@kit.BasicServicesKit';
@@ -107,6 +105,7 @@ export struct MyHomeTab {
           }
           .width('100%')
           .height('100%')
+          .padding({bottom:40})
         }
         if (this.todoStatus?.id == TodoStatus.TODAY) {
           Image($r("app.media.icon_add"))
@@ -137,13 +136,7 @@ export struct MyHomeTab {
         ListItem() {
           ArticleItemComponent({
             article: item,
-            onCollectClick: (article: Article) => {
-              CollectUtils.collect(article)
-                .then((success) => {
-                  if (success) {
-                    this.data = this.data.map(item => item);
-                  }
-                })
+            onCollectClick: (article: TodoModel) => {
             }
           })
         }

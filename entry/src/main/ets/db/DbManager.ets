@@ -19,10 +19,28 @@ export class DbManager {
     return DbManager.instance
   }
 
-  init(context: Context) {
+  static getInstanceAsync(context: Context, block: (manager: DbManager) => void) {
+    // 卡片服务调用时需要走这个方法
+    if (DbManager.instance.store === undefined) {
+      DbManager.instance.init(context, (s) => {
+        if (s) {
+          block(DbManager.instance)
+        } else {
+          LogUtils.error("db init error...")
+        }
+      })
+    } else {
+      block(DbManager.instance)
+    }
+  }
+
+  init(context: Context, block?: (success:boolean)=>void) {
     relationalStore.getRdbStore(context, this.storeConfig, (err, store) => {
       if (err) {
         LogUtils.debug("db init error.")
+        if (block) {
+          block(false)
+        }
         return
       }
       this.store = store
@@ -30,6 +48,9 @@ export class DbManager {
       if (store.version == 0) {
         this.createTable(store)
         store.version = 1
+      }
+      if (block) {
+        block(true)
       }
     })
   }

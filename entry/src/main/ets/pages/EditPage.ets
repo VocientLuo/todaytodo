@@ -1,11 +1,13 @@
 import TodoModel from '../db/TodoModel'
 import router from '@ohos.router';
-import { TitleLayout } from '../widgets/TitleLayout';
-import { toast } from '../common/Toast';
+import { TitleLayout } from 'LibUser/src/main/ets/widgets/TitleLayout'
+import { toast } from 'LibUser/src/main/ets/commons/Toast';
 import { DbManager } from '../db/DbManager';
 import { emitter } from '@kit.BasicServicesKit';
 import EventType from '../event/EventType';
 import DateUtils from '../common/DateUtils';
+import { CardManager } from '../entryformability/CardManager';
+import LogUtils from '../common/LogUtils';
 
 @Entry
 @Component
@@ -34,9 +36,9 @@ struct EditPage {
         }
       })
       Column() {
-        TextInput({
+        TextArea({
           placeholder: "请输入内容",
-          text: this.todoModel?.text
+          text: this.todoModel?.text,
         })
           .height(200)
           .fontSize(13)
@@ -98,6 +100,8 @@ struct EditPage {
   private editSuccess(msg: string) {
     toast(msg)
     emitter.emit(EventType.UPDATE_EVENT, EventType.EVENT_DATA)
+    LogUtils.debug("edit todo to update card")
+    CardManager.get().updateCard()
     router.back()
   }
 }

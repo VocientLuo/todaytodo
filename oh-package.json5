@@ -4,7 +4,8 @@
   "dependencies": {
     "json-bigint": "^1.0.0",
     "@ohmos/json-bigint": "^1.0.0",
-    "dayjs": "^1.11.7"
+    "dayjs": "^1.11.7",
+    "@tencent/mmkv": "^1.3.9"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.18",

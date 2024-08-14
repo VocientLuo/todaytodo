@@ -1,4 +1,4 @@
-export class TodoStatus {
+export default class TodoStatus {
   static TODAY = 0
   static HISTORY = 1
   static DELETED = 2

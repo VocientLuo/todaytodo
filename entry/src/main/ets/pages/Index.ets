@@ -1,11 +1,11 @@
-import { Mine } from './Mine'
+import { Mine } from 'LibUser/src/main/ets/pages/Mine'
 import OHPermission from '../common/OHPermission'
-import WindowUtils from '../common/WindowUtils'
+import WindowUtils from 'LibUser/src/main/ets/commons/WindowUtils';
 import { MyHome } from './MyHome'
 
-@Entry
+@Entry({routeName: "IndexPage"})
 @Component
-struct Index {
+export struct Index {
   @State message: string = 'Hello World';
 
   private static TAG = "Index"

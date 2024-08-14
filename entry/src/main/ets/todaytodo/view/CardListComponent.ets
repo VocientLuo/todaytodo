@@ -1,4 +1,4 @@
-import { CardListParameter } from '../viewmodel/CardListParameter';
+import { CardConfigParameter } from '../viewmodel/CardConfigParameter';
 
 @Component
 export struct CardListComponent {
@@ -15,7 +15,8 @@ export struct CardListComponent {
    */
   readonly FULL_HEIGHT_PERCENT: string = '100%';
   @BuilderParam customBuilderParam: () => void = this.customBuilder;
-  @Link cardListParameter: CardListParameter;
+  @Link cardListParameter: CardConfigParameter;
+  @Link cardListNumber: number;
 
   @Builder
   customBuilder() {
@@ -27,33 +28,27 @@ export struct CardListComponent {
         Column({ space: FlexAlign.Start }) {
           Row() {
             Row() {
-              Text(this.cardListParameter.title)
+              Text("今日事")
                 .fontSize($r('app.float.list_title_font_size'))
                 .fontWeight(FontWeight.Bold)
                 .height($r('app.float.list_title_height'))
-                .fontColor(this.cardListParameter.titleColor)
+                .fontColor(this.cardListParameter.txtColor)
                 .padding({ right: $r('app.float.list_title_padding_right') })
                 .maxLines(1)
                 .textOverflow({ overflow: TextOverflow.Ellipsis })
-
-              if (this.cardListParameter.isItemCount && this.cardListParameter.itemCount) {
-                Text(this.cardListParameter.itemCount > this.MAX_QUANTITY
-                  ? '99+' : this.cardListParameter.itemCount + '')
-                  .textAlign(TextAlign.Center)
-                  .fontSize($r('app.float.item_count_font_size'))
-                  .fontWeight(FontWeight.Medium)
-                  .fontColor(this.cardListParameter.itemCountColor)
-                  .backgroundColor(this.cardListParameter.itemCountBackgroundColor)
-                  .width($r('app.float.item_count_width'))
-                  .height($r('app.float.item_count_height'))
-                  .borderRadius($r('app.float.item_count_radius'))
-              }
+              Text(this.cardListNumber! > this.MAX_QUANTITY
+                ? '99+' : this.cardListNumber + '')
+                .textAlign(TextAlign.Center)
+                .fontSize($r('app.float.item_count_font_size'))
+                .fontWeight(FontWeight.Medium)
+                .fontColor(this.cardListParameter.txtColor)
+                .width($r('app.float.item_count_width'))
+                .height($r('app.float.item_count_height'))
+                .borderRadius($r('app.float.item_count_radius'))
             }.layoutWeight(1)
-
-            Image(this.cardListParameter.logo)
-              .width($r('app.float.list_logo_size'))
-              .height($r('app.float.list_logo_size'))
-              .margin({ left: $r('app.float.icon_margin') })
+            Image($r(this.cardListParameter.addIconStr))
+              .width($r('app.float.bottom_icon_size'))
+              .height($r('app.float.bottom_icon_size'))
           }
           .width(this.FULL_WIDTH_PERCENT)
           .alignItems(VerticalAlign.Top)
@@ -70,31 +65,7 @@ export struct CardListComponent {
         }
         .pixelRound({ bottom: PixelRoundCalcPolicy.FORCE_CEIL })
 
-        Stack({ alignContent: Alignment.BottomEnd }) {
-          if (this.cardListParameter.isMask) {
-            Row()
-              .width(this.FULL_WIDTH_PERCENT)
-              .height($r('app.float.list_mask_height'))
-              .linearGradient({
-                direction: GradientDirection.Top,
-                repeating: false,
-                colors: [[this.cardListParameter.maskColor, 0.0], ['#00ffffff', 1]]
-              })
-              .pixelRound({ bottom: PixelRoundCalcPolicy.FORCE_CEIL })
-              .hitTestBehavior(HitTestMode.None)
-          }
-
-          if (this.cardListParameter.isBottomIcon) {
-            Image(this.cardListParameter.bottomIcon)
-              .width($r('app.float.bottom_icon_size'))
-              .height($r('app.float.bottom_icon_size'))
-          }
-        }
-        .width(this.FULL_WIDTH_PERCENT)
       }
-      .backgroundImage(this.cardListParameter.backgroundImage)
-      .backgroundImageSize(this.cardListParameter.backgroundImageSize)
-      .backgroundColor(this.cardListParameter.backgroundColor)
       .padding({
         top: $r('app.float.list_side_padding'),
         bottom: $r('app.float.list_side_padding'),

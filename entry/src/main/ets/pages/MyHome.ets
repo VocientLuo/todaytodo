@@ -1,7 +1,5 @@
-import WindowUtils from '../common/WindowUtils';
-import Api from '../net/Api';
-import { TodoStatus } from '../net/model/TodoStatus';
-import { LoadState, PageLoading } from '../widgets/PageLoading';
+import TodoStatus from '../net/model/TodoStatus';
+import { LoadState } from 'LibUser/src/main/ets/widgets/PageLoading';
 import { MyHomeTab } from './MyHomeTab';
 
 @Component
@@ -11,19 +9,6 @@ export struct MyHome {
   @State tabStatus: TodoStatus[] = [new TodoStatus(TodoStatus.TODAY, "今日事"), new TodoStatus(TodoStatus.HISTORY, "往日事"), new TodoStatus(TodoStatus.DELETED, "已删除"),]
 
   aboutToAppear() {
-    this.loadData();
-  }
-
-  private loadData() {
-    this.loadState = LoadState.LOADING
-    Api.get().getWeChatAuthorList()
-      .then((res) => {
-        if (res.isSuccessWithData()) {
-          this.loadState = LoadState.SUCCESS;
-        } else {
-          this.loadState = LoadState.FAIL;
-        }
-      })
   }
 
   build() {

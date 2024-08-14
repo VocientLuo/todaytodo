@@ -1,13 +1,22 @@
 import { CardListComponent } from '../view/CardListComponent';
-import { CardListParameter } from '../viewmodel/CardListParameter';
+import { CardConfigParameter } from '../viewmodel/CardConfigParameter';
+import TodoModel from '../../db/TodoModel';
+import TodoStatus from '../../net/model/TodoStatus';
+import { CardManager } from '../../entryformability/CardManager';
+const storage = new LocalStorage();
 
-@Entry
+@Entry(storage)
 @Component
 struct TodayTodoCard {
+
   /*
    * The action type.
    */
   readonly ACTION_TYPE: string = 'router';
+  readonly ACTION_MSG: string = "message";
+  readonly ACTION_ADD: string = "add_todo";
+  readonly ACTION_ENTER: string = "enter_todo";
+
   /*
    * The ability name.
    */
@@ -24,66 +33,88 @@ struct TodayTodoCard {
    * The height percentage setting.
    */
   readonly FULL_HEIGHT_PERCENT: string = '100%';
-  cardListData: CardListItemData = {
-    title: $r('app.string.card_list_title'),
-    content: $r('app.string.card_list_content'),
-    icon: $r('app.media.list_item')
-  };
-  cardList: Array<number> = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-  @State cardListParameter: CardListParameter = new CardListParameter($r('sys.color.ohos_id_color_background'),
-    $r('app.string.card_list_title'), '', ImageSize.Auto, $r('app.media.startIcon'), true,
-    $r('sys.color.ohos_id_color_background'), true, this.cardList.length, $r('sys.color.ohos_id_color_emphasize'),
-    $r('app.color.list_item_count_background'), '', true, $r('app.media.bottom_icon'));
+
+  @LocalStorageProp('cardListData') cardListData: TodoModel[] = []
+  @LocalStorageProp('itemNumber') itemNumber: number = 0
+  @LocalStorageProp('cardConfig') cardConfig: CardConfigParameter = new CardConfigParameter()
+
+  private doneItem(item: TodoModel) {
+    postCardAction(this, {
+      action: this.ACTION_MSG,
+      params: {
+        type: CardManager.EVENT_DONE,
+        item: item
+      }
+    })
+  }
 
   @Builder
   cardListBuilder() {
-    ForEach(this.cardList, (item: number) => {
-      ListItem() {
-        Row() {
-          Column() {
-            Text(this.cardListData.title)
-              .maxLines(1)
-              .textOverflow({ overflow: TextOverflow.Ellipsis })
-              .fontSize($r('app.float.item_content_font_size'))
-              .fontWeight(FontWeight.Medium)
-              .fontColor(Color.Black)
-              .height($r('app.float.item_text_height'))
-              .margin({ top: $r('app.float.item_text_margin') })
-            Text(this.cardListData.content)
-              .maxLines(1)
-              .fontSize($r('app.float.item_content_font_size'))
-              .textOverflow({ overflow: TextOverflow.Ellipsis })
-              .fontWeight(FontWeight.Regular)
-              .height($r('app.float.item_text_height'))
-
-            Divider()
-              .strokeWidth(0.38)
-              .lineCap(LineCapStyle.Square)
-              .margin({ top: $r('app.float.list_divider_margin') })
+    if (this.cardListData.length > 0) {
+      ForEach(this.cardListData, (item: TodoModel) => {
+        ListItem() {
+          Row() {
+            if (item.status == TodoStatus.TODAY) {
+              Image($r("app.media.square"))
+                .width($r('app.float.item_image_size'))
+                .height($r('app.float.item_image_size'))
+                .onClick(e => {
+                  this.doneItem(item)
+                })
+            } else {
+              Image($r("app.media.square_check"))
+                .width($r('app.float.item_image_size'))
+                .height($r('app.float.item_image_size'))
+            }
+            Column() {
+              Text(item.text)
+                .maxLines(1)
+                .textOverflow({ overflow: TextOverflow.Ellipsis })
+                .fontSize($r('app.float.item_content_font_size'))
+                .fontWeight(FontWeight.Medium)
+                .fontColor(this.cardConfig.txtColor)
+                .height($r('app.float.item_text_height'))
+                .margin({ top: $r('app.float.item_text_margin') })
+              Divider()
+                .strokeWidth(0.38)
+                .lineCap(LineCapStyle.Square)
+                .margin({ top: $r('app.float.list_divider_margin') })
+            }
+            .margin({ left: $r('app.float.list_row_margin') , top: 5})
+            .alignItems(HorizontalAlign.Start)
+            .layoutWeight(1)
           }
-          .margin({ right: $r('app.float.list_row_margin') })
-          .alignItems(HorizontalAlign.Start)
-          .layoutWeight(1)
-
-          Image(this.cardListData.icon)
-            .width($r('app.float.item_image_size'))
-            .height($r('app.float.item_image_size'))
+          .alignItems(VerticalAlign.Center)
+          .width(this.FULL_WIDTH_PERCENT)
         }
-        .alignItems(VerticalAlign.Center)
         .width(this.FULL_WIDTH_PERCENT)
+        .height($r('app.float.item_height'))
+      }, (item: number, index) => index + JSON.stringify(item))
+    } else {
+      Row() {
+        Text("今日无事...")
+          .maxLines(1)
+          .fontSize($r('app.float.item_content_font_size'))
+          .fontWeight(FontWeight.Medium)
+          .fontColor("#999999")
+          .height($r('app.float.item_text_height'))
+          .margin({ top: $r('app.float.item_text_margin') })
       }
-      .width(this.FULL_WIDTH_PERCENT)
-      .height($r('app.float.item_height'))
-    }, (item: number, index) => index + JSON.stringify(item))
+    }
   }
 
   build() {
-    Row() {
-      CardListComponent({ cardListParameter: this.cardListParameter }) {
+    Stack() {
+      Image($r(this.cardConfig.bgStr))
+        .opacity(this.cardConfig.bgAlpha)
+        .width("100%")
+        .height("100%")
+      CardListComponent({ cardListParameter: this.cardConfig, cardListNumber: this. itemNumber}) {
         this.cardListBuilder()
       }
     }
     .height(this.FULL_HEIGHT_PERCENT)
+    .backgroundColor(Color.Transparent)
     .onClick(() => {
       postCardAction(this, {
         action: this.ACTION_TYPE,
@@ -94,10 +125,5 @@ struct TodayTodoCard {
       });
     })
   }
-}
 
-interface CardListItemData {
-  title: ResourceStr;
-  content: ResourceStr;
-  icon?: Resource;
 }

@@ -1,0 +1,11 @@
+{
+  "module": {
+    "name": "module_user",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet",
+      "2in1"
+    ]
+  }
+}
