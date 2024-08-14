@@ -114,7 +114,7 @@ struct TodayTodoCard {
       }
     }
     .height(this.FULL_HEIGHT_PERCENT)
-    .backgroundColor("#00000000")
+    .backgroundColor(Color.Transparent)
     .onClick(() => {
       postCardAction(this, {
         action: this.ACTION_TYPE,
