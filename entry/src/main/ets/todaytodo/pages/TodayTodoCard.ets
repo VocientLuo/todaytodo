@@ -1,5 +1,5 @@
 import { CardListComponent } from '../view/CardListComponent';
-import { CardListParameter } from '../viewmodel/CardListParameter';
+import { CardConfigParameter } from '../viewmodel/CardConfigParameter';
 import TodoModel from '../../db/TodoModel';
 import TodoStatus from '../../net/model/TodoStatus';
 import { CardManager } from '../../entryformability/CardManager';
@@ -35,12 +35,8 @@ struct TodayTodoCard {
   readonly FULL_HEIGHT_PERCENT: string = '100%';
 
   @LocalStorageProp('cardListData') cardListData: TodoModel[] = []
-
-  //@State cardListData: TodoModel[] = [];
-  @State cardListParameter: CardListParameter = new CardListParameter($r('sys.color.ohos_id_color_background'),
-    $r('app.string.card_list_title'), '', ImageSize.Auto, $r('app.media.startIcon'), true,
-    $r('sys.color.ohos_id_color_background'), true, this.cardListData.length, $r('sys.color.ohos_id_color_emphasize'),
-    $r('app.color.list_item_count_background'), '', true, $r('app.media.bottom_icon'));
+  @LocalStorageProp('itemNumber') itemNumber: number = 0
+  @LocalStorageProp('cardConfig') cardConfig: CardConfigParameter = new CardConfigParameter()
 
   private doneItem(item: TodoModel) {
     postCardAction(this, {
@@ -76,7 +72,7 @@ struct TodayTodoCard {
                 .textOverflow({ overflow: TextOverflow.Ellipsis })
                 .fontSize($r('app.float.item_content_font_size'))
                 .fontWeight(FontWeight.Medium)
-                .fontColor(Color.Black)
+                .fontColor(this.cardConfig.txtColor)
                 .height($r('app.float.item_text_height'))
                 .margin({ top: $r('app.float.item_text_margin') })
               Divider()
@@ -96,7 +92,7 @@ struct TodayTodoCard {
       }, (item: number, index) => index + JSON.stringify(item))
     } else {
       Row() {
-        Text("今日无事")
+        Text("今日无事...")
           .maxLines(1)
           .fontSize($r('app.float.item_content_font_size'))
           .fontWeight(FontWeight.Medium)
@@ -108,12 +104,17 @@ struct TodayTodoCard {
   }
 
   build() {
-    Row() {
-      CardListComponent({ cardListParameter: this.cardListParameter }) {
+    Stack() {
+      Image($r(this.cardConfig.bgStr))
+        .opacity(this.cardConfig.bgAlpha)
+        .width("100%")
+        .height("100%")
+      CardListComponent({ cardListParameter: this.cardConfig, cardListNumber: this. itemNumber}) {
         this.cardListBuilder()
       }
     }
     .height(this.FULL_HEIGHT_PERCENT)
+    .backgroundColor("#00000000")
     .onClick(() => {
       postCardAction(this, {
         action: this.ACTION_TYPE,

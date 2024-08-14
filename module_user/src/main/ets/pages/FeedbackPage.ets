@@ -1,6 +1,8 @@
 import router from '@ohos.router';
 import { TitleLayout } from '../widgets/TitleLayout'
 import { toast } from '../commons/Toast';
+import { FeedbackModel } from '../net/model/FeedbackTypeModel';
+import Api from '../net/Api';
 
 @Entry({routeName: "FeedbackPage"})
 @Component
@@ -63,6 +65,14 @@ struct FeedbackPage {
       toast("请输入内容")
       return
     }
-
+    let model = new FeedbackModel()
+    model.content = this.content
+    Api.get().postFeedback(model)
+      .then((res) => {
+        if (res.errorCode == 200) {
+          toast("反馈成功")
+          router.back()
+        }
+      })
   }
 }

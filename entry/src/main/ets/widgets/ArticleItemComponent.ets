@@ -29,15 +29,15 @@ export struct ArticleItemComponent {
     Column() {
       Row(){
         Image(this.checkResource)
-          .width(20)
-          .height(20)
+          .width($r('app.float.item_image_size'))
+          .height($r('app.float.item_image_size'))
           .objectFit(ImageFit.Contain)
           .onClick(e => {
             this.onCheck()
           })
         Text(this.article.text)
           .fontColor($r("app.color.text_h1"))
-          .fontSize(15)
+          .fontSize($r('app.float.item_content_font_size'))
           .maxLines(2)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
           .layoutWeight(1)

@@ -5,18 +5,29 @@ import { CardManager, FormDataClass } from './CardManager';
 import LogUtils from '../common/LogUtils';
 import { DbManager } from '../db/DbManager';
 import TodoStatus from '../net/model/TodoStatus';
+import { CardConfigParameter } from '../todaytodo/viewmodel/CardConfigParameter';
 
 export default class EntryFormAbility extends FormExtensionAbility {
   onAddForm(want: Want) {
-    // Called to return a FormBindingData object.
-    this.updateFormId(want)
+    this.parseFormId(want)
     let data = new FormDataClass()
+    data.itemNumber = 0
     data.cardListData = []
+    data.cardConfig = new CardConfigParameter()
     return formBindingData.createFormBindingData(data);
   }
 
-  onCastToNormalForm(formId: string) {
+  private parseFormId(want: Want) {
+    let formId: string = '';
+    if (want.parameters) {
+      formId = JSON.stringify(want.parameters[formInfo.FormParam.IDENTITY_KEY]);
+      CardManager.get().saveCardId(this.context, formId)
+    }
+  }
 
+  onCastToNormalForm(formId: string) {
+    CardManager.get().saveCardId(this.context, formId)
+    CardManager.get().updateCard(this.context, formId)
   }
 
   onUpdateForm(formId: string) {
@@ -47,21 +58,11 @@ export default class EntryFormAbility extends FormExtensionAbility {
   }
 
   onRemoveForm(formId: string) {
-    // CardManager.clearCardId()
-  }
-
-  private updateFormId(want: Want) {
-    let formId: string = '';
-    if (want.parameters) {
-      formId = JSON.stringify(want.parameters[formInfo.FormParam.IDENTITY_KEY]);
-      LogUtils.debug("----------update formId: " + formId)
-      CardManager.get().updateCard(this.context, formId)
-    }
-
+    CardManager.get().clearCardId(this.context)
   }
 
   onAcquireFormState(want: Want) {
-    this.updateFormId(want)
+    this.parseFormId(want)
     return formInfo.FormState.READY;
   }
 };

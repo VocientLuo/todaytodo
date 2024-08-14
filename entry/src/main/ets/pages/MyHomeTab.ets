@@ -105,6 +105,7 @@ export struct MyHomeTab {
           }
           .width('100%')
           .height('100%')
+          .padding({bottom:40})
         }
         if (this.todoStatus?.id == TodoStatus.TODAY) {
           Image($r("app.media.icon_add"))
@@ -136,12 +137,6 @@ export struct MyHomeTab {
           ArticleItemComponent({
             article: item,
             onCollectClick: (article: TodoModel) => {
-              // CollectUtils.collect(article)
-              //   .then((success) => {
-              //     if (success) {
-              //       this.data = this.data.map(item => item);
-              //     }
-              //   })
             }
           })
         }

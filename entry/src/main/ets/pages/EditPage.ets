@@ -36,9 +36,9 @@ struct EditPage {
         }
       })
       Column() {
-        TextInput({
+        TextArea({
           placeholder: "请输入内容",
-          text: this.todoModel?.text
+          text: this.todoModel?.text,
         })
           .height(200)
           .fontSize(13)

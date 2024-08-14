@@ -10,5 +10,5 @@ export class FeedbackTypeModel {
 
 export class FeedbackModel extends BaseModel{
   content: string = ""
-  feedbackTypeId: number = 0
+  feedbackTypeId: number = 105 // 界面问题
 }
