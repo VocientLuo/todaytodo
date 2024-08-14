@@ -1,6 +1,6 @@
 
 export default class AppConfig {
-  static BASE_URL: string = "https://api.beeteker.com/api/"
+  static BASE_URL: string = "key enter your server url"
 
   static appName: string = ""
   static appVersion: string = ""
