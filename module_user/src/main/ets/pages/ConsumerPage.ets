@@ -9,8 +9,8 @@ export struct ConsumerPage {
   @State showLoading: boolean = false;
   @State title: string = "联系客服";
 
-  private weixin = "biteker"
-  private email = "kf@beeteker.com"
+  private weixin = "--"
+  private email = "--"
 
   aboutToAppear() {
 
