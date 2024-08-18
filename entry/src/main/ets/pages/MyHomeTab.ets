@@ -13,7 +13,7 @@ import EventType from '../event/EventType';
 export struct MyHomeTab {
   todoStatus: TodoStatus | undefined = undefined;
   @State loadState: LoadState = LoadState.LOADING;
-  @State showLoading: boolean = false;
+  @State showLoading: boolean = true;
   @State data: TodoModel[] = [];
   private static TAG = "MyHomeTab"
   private scroller: Scroller = new Scroller();
@@ -23,6 +23,7 @@ export struct MyHomeTab {
 
   aboutToAppear() {
     this.refreshConfig.setHasRefresh(false);
+    this.refreshConfig.setHasLoadMore(false)
     this.loadData();
     emitter.on(EventType.UPDATE_EVENT, (data)=> {
       this.loadData()
@@ -32,6 +33,7 @@ export struct MyHomeTab {
   private loadData() {
     if (this.todoStatus) {
       this.loadState = LoadState.LOADING
+      this.showLoading = true
       this.loadDataByPage(0).then(
         (data) => {
           this.data = data.convertToArray();
@@ -40,9 +42,11 @@ export struct MyHomeTab {
           } else {
             this.loadState = LoadState.SUCCESS;
           }
+          this.showLoading = false
         },
         () => {
           this.loadState = LoadState.FAIL;
+          this.showLoading = false
         })
     } else {
       this.loadState = LoadState.FAIL;

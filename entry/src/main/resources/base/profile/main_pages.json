@@ -2,6 +2,7 @@
   "src": [
     "pages/Index",
     "pages/EditPage",
-    "pages/CardSettingPage"
+    "pages/CardSettingPage",
+    "pages/DateDetailPage"
   ]
 }

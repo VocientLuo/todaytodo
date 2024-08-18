@@ -16,13 +16,13 @@ export struct MyHome {
       Tabs({
         barPosition: BarPosition.Start
       }) {
-        ForEach(this.tabStatus, (author: TodoStatus) => {
+        ForEach(this.tabStatus, (status: TodoStatus) => {
           TabContent() {
             MyHomeTab({
-              todoStatus: author
+              todoStatus: status
             })
           }
-          .tabBar(author.name)
+          .tabBar(status.name)
         })
       }
       .width('100%')

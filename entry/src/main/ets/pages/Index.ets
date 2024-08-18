@@ -1,4 +1,5 @@
 import { Mine } from 'LibUser/src/main/ets/pages/Mine'
+import { Reports } from './Reports'
 import OHPermission from '../common/OHPermission'
 import WindowUtils from 'LibUser/src/main/ets/commons/WindowUtils';
 import { MyHome } from './MyHome'
@@ -22,8 +23,11 @@ export struct Index {
             MyHome()
           }.tabBar(this.tabBuilder("首页", 0, $r("app.media.tab1sel"), $r("app.media.tab1nor")))
           TabContent() {
+            Reports()
+          }.tabBar(this.tabBuilder("报表", 1, $r("app.media.tab2sel"), $r("app.media.tab2nor")))
+          TabContent() {
             Mine()
-          }.tabBar(this.tabBuilder("我的", 1, $r("app.media.tab4sel"), $r("app.media.tab4nor")))
+          }.tabBar(this.tabBuilder("我的", 2, $r("app.media.tab4sel"), $r("app.media.tab4nor")))
         }
         .layoutWeight(1)
         .scrollable(false)
