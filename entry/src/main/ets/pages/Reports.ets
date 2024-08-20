@@ -8,6 +8,9 @@ import { toast } from 'LibUser/src/main/ets/commons/Toast'
 import DateUtils from '../common/DateUtils'
 import { ArrayList } from '@kit.ArkTS'
 import { DbManager } from '../db/DbManager'
+import { emitter } from '@kit.BasicServicesKit'
+import EventType from '../event/EventType'
+import LogUtils from '../common/LogUtils'
 
 import('LibUser/src/main/ets/pages/LoginPhonePage')
 import('LibUser/src/main/ets/pages/FeedbackPage')
@@ -29,6 +32,7 @@ export class ReportItem {
   count: number = 0
   date: string = ""
   text: string = ""
+  txtColor: string = ""
   itemType: ItemType = ItemType.DATE
 }
 
@@ -51,6 +55,13 @@ export struct Reports {
   private squareSize: number = 25
 
   aboutToAppear() {
+    this.loadData()
+    emitter.on(EventType.UPDATE_EVENT, (data)=> {
+      this.loadData()
+    })
+  }
+
+  private loadData(){
     // 异步获取数据
     new Promise<boolean>((r, j)=> {
       // 今天的日期
@@ -67,13 +78,17 @@ export struct Reports {
       firstRow.month = DateUtils.getMonth(today)
       dateList.add(firstRow)
       let currentDate = new Date()
-      for (let i = 0; i < weekIndex; i++) {
-        currentDate.setDate(today.getDate()+weekIndex-i)
+      for (let i = weekIndex; i > 0; i--) {
+        currentDate = new Date()
+        currentDate.setDate(today.getDate()+i)
+        LogUtils.debug("current date: " + today.getDate())
         firstRow.rowList.push(this.getEmptyItem(currentDate))
       }
-      for (let i = weekIndex; i < 7; i++) {
+      LogUtils.debug("------------")
+      for (let i = 0; i < 7-weekIndex; i++) {
         currentDate = new Date()
         currentDate.setDate(today.getDate()-i)
+        LogUtils.debug("current date: " + today.getDate())
         firstRow.rowList.push(this.getDataItem(currentDate))
         currentDay++
       }
@@ -107,6 +122,7 @@ export struct Reports {
     item.month = DateUtils.getMonth(date)
     item.itemType = ItemType.MONTH
     item.text = `${item.month +1}`
+    item.txtColor = "#333333"
     return item
   }
 
@@ -115,6 +131,9 @@ export struct Reports {
     item.year = DateUtils.getYear(date)
     item.month = DateUtils.getMonth(date)
     item.itemType = ItemType.EMPTY
+    item.day = DateUtils.getDay(date)
+    item.text = `${item.day}`
+    item.txtColor = "#999999"
     return item
   }
 
@@ -127,6 +146,7 @@ export struct Reports {
     item.day = DateUtils.getDay(date)
     item.text = `${item.day}`
     item.itemType = ItemType.DATE
+    item.txtColor = "#000000"
     return item
   }
 
@@ -229,7 +249,7 @@ export struct Reports {
                   } else {
                     Text(item.text)
                       .fontSize(12)
-                      .fontColor($r("app.color.text_h6"))
+                      .fontColor(item.txtColor)
                       .backgroundColor(this.getItemColor(item.count))
                       .textAlign(TextAlign.Center)
                       .margin({right: 1, bottom: 1})

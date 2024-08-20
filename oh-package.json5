@@ -5,7 +5,9 @@
     "json-bigint": "^1.0.0",
     "@ohmos/json-bigint": "^1.0.0",
     "dayjs": "^1.11.7",
-    "@tencent/mmkv": "^1.3.9"
+    "@tencent/mmkv": "^1.3.9",
+    "@umeng/common": "^1.0.31",
+    "@umeng/analytics": "^1.0.19"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.18",

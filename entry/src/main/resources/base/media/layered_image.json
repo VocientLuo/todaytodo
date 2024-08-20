@@ -2,6 +2,6 @@
   "layered-image":
   {
     "background" : "$media:today_background",
-    "foreground" : "$media:today_foreground"
+    "foreground" : "$media:today_foreground1"
   }
 }

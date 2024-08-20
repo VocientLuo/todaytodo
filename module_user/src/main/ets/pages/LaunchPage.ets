@@ -3,6 +3,7 @@ import { MMKV } from '@tencent/mmkv';
 import AgreementDialog from '../dialog/AgreementDialog';
 import AppConfig from '../commons/AppConfig'
 import { emitter } from '@kit.BasicServicesKit';
+import UmengUtils from '../commons/UmengUtils';
 
 import('../pages/WebPage')
 
@@ -44,6 +45,7 @@ export struct LaunchPage {
   }
 
   private goMain() {
+    UmengUtils.start()
     setTimeout(()=> {
       router.replaceUrl({url: "pages/Index"})
     }, 1000)
