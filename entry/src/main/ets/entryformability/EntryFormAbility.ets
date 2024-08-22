@@ -14,13 +14,16 @@ export default class EntryFormAbility extends FormExtensionAbility {
     data.itemNumber = 0
     data.cardListData = []
     data.cardConfig = new CardConfigParameter()
+    setTimeout(() => {
+      CardManager.get().updateCard(this.context)
+    }, 0)
     return formBindingData.createFormBindingData(data);
   }
 
   private parseFormId(want: Want) {
     let formId: string = '';
     if (want.parameters) {
-      formId = JSON.stringify(want.parameters[formInfo.FormParam.IDENTITY_KEY]);
+      formId = want.parameters[formInfo.FormParam.IDENTITY_KEY] as string;
       CardManager.get().saveCardId(this.context, formId)
     }
   }
