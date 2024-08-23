@@ -246,6 +246,42 @@ export class DbManager {
     })
   }
 
+  getRecordByStatusSync(status: number): ArrayList<TodoModel> {
+    let predicates = new relationalStore.RdbPredicates(this.tbName)
+    predicates.equalTo('status', status)
+    predicates.orderByDesc("modifyTime")
+    let data = new ArrayList<TodoModel>()
+    if (this.store == undefined) {
+      LogUtils.error("db not init.")
+      return data
+    }
+    let resultSet = (this.store as relationalStore.RdbStore).querySync(predicates, ['id', 'text', 'createTime', 'modifyTime', 'weight',
+      'status', 'fontStyle', 'imgUrl', 'schedule', 'wxRemind', 'repeat', 'planTime', 'deleteState', 'serverId'])
+    console.info(`ResultSet column names: ${resultSet.columnNames}, column count: ${resultSet.columnCount}`);
+    // resultSet是一个数据集合的游标，默认指向第-1个记录，有效的数据从0开始。
+    while (resultSet.goToNextRow()) {
+      let model = new TodoModel()
+      model.id = resultSet.getLong(resultSet.getColumnIndex('id'))
+      model.text = resultSet.getString(resultSet.getColumnIndex('text'))
+      model.createTime = resultSet.getString(resultSet.getColumnIndex('createTime'))
+      model.modifyTime = resultSet.getString(resultSet.getColumnIndex('modifyTime'))
+      model.weight = resultSet.getLong(resultSet.getColumnIndex('weight'))
+      model.status = resultSet.getLong(resultSet.getColumnIndex('status'))
+      model.fontStyle = resultSet.getString(resultSet.getColumnIndex('fontStyle'))
+      model.imgUrl = resultSet.getString(resultSet.getColumnIndex('imgUrl'))
+      model.schedule = resultSet.getLong(resultSet.getColumnIndex('schedule'))
+      model.wxRemind = resultSet.getLong(resultSet.getColumnIndex('wxRemind'))
+      model.repeat = resultSet.getLong(resultSet.getColumnIndex('repeat'))
+      model.planTime = resultSet.getString(resultSet.getColumnIndex('planTime'))
+      model.deleteState = resultSet.getLong(resultSet.getColumnIndex('deleteState'))
+      model.serverId = resultSet.getLong(resultSet.getColumnIndex('serverId'))
+      data.add(model)
+    }
+    // 释放数据集的内存
+    resultSet.close();
+    return data;
+  }
+
   getValuesBucket(model: TodoModel, isAdd: boolean = false): relationalStore.ValuesBucket {
     if (isAdd) {
       let vb: relationalStore.ValuesBucket = {

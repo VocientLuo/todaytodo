@@ -8,6 +8,7 @@ import dataPreferences from '@ohos.data.preferences';
 import EntryContext from 'LibUser/src/main/ets/commons/EntryContext'
 import { CardConfigParameter } from '../todaytodo/viewmodel/CardConfigParameter'
 import JSON from '@ohmos/json-bigint';
+import { emitter } from '@kit.BasicServicesKit'
 
 export class FormDataClass {
   title: string = "今日事"
@@ -46,8 +47,6 @@ export class CardManager {
   }
 
   saveCardId(context: Context, formId: string) {
-    LogUtils.debug("save cardId: " + formId)
-    console.log("cardtest, save cardId: " + formId)
     let pref = dataPreferences.getPreferencesSync(context, { name: CardManager.KEY_CARD_ID });
     pref.putSync(CardManager.KEY_CARD_ID, formId)
     pref.flush()
@@ -56,8 +55,6 @@ export class CardManager {
   clearCardId(context: Context) {
     let pref = dataPreferences.getPreferencesSync(context, { name: CardManager.KEY_CARD_ID });
     pref.putSync(CardManager.KEY_CARD_ID, '')
-    LogUtils.debug("clear card id")
-    console.log("cardtest, clear cardId ")
     pref.flush()
   }
 
@@ -81,8 +78,6 @@ export class CardManager {
     if (!cardId) {
       cardId = this.getFormId(context)
     }
-    LogUtils.debug("update card info, id: " + cardId)
-    console.log("cardtest, update data, cardId: " + cardId)
     if (cardId) {
       db.getRecordByStatus(TodoStatus.TODAY).then(list => {
         let dataClass = new FormDataClass()
@@ -92,12 +87,9 @@ export class CardManager {
         let formInfo: formBindingData.FormBindingData = formBindingData.createFormBindingData(dataClass);
         formProvider.updateForm(cardId, formInfo)
         LogUtils.debug("update card form complete.")
-        console.log("cardtest, update success cardId: " + cardId)
       })
       this.saveCardId(context, cardId)
-      console.log("cardtest, update data complete, update cardId: " + cardId)
     } else {
-      console.log("cardtest, cardId is empty: " + cardId)
       LogUtils.error("card id is empty")
     }
   }

@@ -6,6 +6,7 @@ import LogUtils from '../common/LogUtils';
 import { DbManager } from '../db/DbManager';
 import TodoStatus from '../net/model/TodoStatus';
 import { CardConfigParameter } from '../todaytodo/viewmodel/CardConfigParameter';
+import SubscriberClass from './SubscriberClass';
 
 export default class EntryFormAbility extends FormExtensionAbility {
   onAddForm(want: Want) {
@@ -16,7 +17,7 @@ export default class EntryFormAbility extends FormExtensionAbility {
     data.cardConfig = new CardConfigParameter()
     setTimeout(() => {
       CardManager.get().updateCard(this.context)
-    }, 0)
+    }, 500)
     return formBindingData.createFormBindingData(data);
   }
 
@@ -24,7 +25,11 @@ export default class EntryFormAbility extends FormExtensionAbility {
     let formId: string = '';
     if (want.parameters) {
       formId = want.parameters[formInfo.FormParam.IDENTITY_KEY] as string;
-      CardManager.get().saveCardId(this.context, formId)
+      if (formId) {
+        CardManager.get().saveCardId(this.context, formId)
+        // 通知app进程保存form id
+        SubscriberClass.publish(SubscriberClass.event_form_id, formId)
+      }
     }
   }
 
