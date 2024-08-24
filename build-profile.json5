@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "storePassword": "0000001C6DB9C168B7905400568127316C68E0E5C1127699AA36DEE9624B3B2ADEE5C61F88E5990692468969",
-          "certpath": "G:/workspace/harmony/key/btk.cer",
-          "keyAlias": "beeteker",
-          "keyPassword": "0000001C8B8395A702D0340538FAA45FA5156B5245993E0D73609866F7CD35CB92EFDA85AD0C4BD4837D2D69",
-          "profile": "G:/workspace/harmony/key/btkRelease.p7b",
-          "signAlg": "SHA256withECDSA",
-          "storeFile": "G:/workspace/harmony/key/.p12"
+          "storePassword": "xxx",
+          "certpath": "xxx",
+          "keyAlias": "xxx",
+          "keyPassword": "xxx",
+          "profile": "xxx",
+          "signAlg": "xxx",
+          "storeFile": "xxx"
         }
       }
     ],
