@@ -28,20 +28,36 @@ export struct ArticleItemComponent {
   build() {
     Column() {
       Row(){
-        Image(this.checkResource)
-          .width($r('app.float.item_image_size'))
-          .height($r('app.float.item_image_size'))
-          .objectFit(ImageFit.Contain)
-          .onClick(e => {
-            this.onCheck()
-          })
-        Text(this.article.text)
-          .fontColor($r("app.color.text_h1"))
-          .fontSize($r('app.float.item_content_font_size'))
-          .maxLines(2)
-          .textOverflow({ overflow: TextOverflow.Ellipsis })
-          .layoutWeight(1)
-          .margin({left:10})
+        if (this.article.status != TodoStatus.DELETED) {
+          Image(this.checkResource)
+            .width($r('app.float.item_image_size'))
+            .height($r('app.float.item_image_size'))
+            .objectFit(ImageFit.Contain)
+            .onClick(e => {
+              this.onCheck()
+            })
+        }
+        if (this.article.status == TodoStatus.DELETED) {
+          Text(this.article.text)
+            .fontColor($r("app.color.text_h9"))
+            .fontSize($r('app.float.item_content_font_size'))
+            .maxLines(2)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            .layoutWeight(1)
+            .decoration({
+              type: TextDecorationType.LineThrough,
+              color: $r("app.color.text_h9")
+            })
+            .margin({left:10})
+        } else {
+          Text(this.article.text)
+            .fontColor($r("app.color.text_h1"))
+            .fontSize($r('app.float.item_content_font_size'))
+            .maxLines(2)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            .layoutWeight(1)
+            .margin({left:10})
+        }
       }
       .width('100%')
       Divider()

@@ -69,6 +69,13 @@ export struct CardSettingPage {
         }
       })
       Column() {
+        Row() {
+          Text("卡片预览(不可在此操作卡片)")
+            .fontColor($r("app.color.text_h1"))
+            .fontSize(16)
+            .width("100%")
+            .padding({left: 16})
+        }
         Stack() {
           Image($r(this.bgStr))
             .width("100%")
@@ -114,10 +121,15 @@ export struct CardSettingPage {
           }
           .pixelRound({ bottom: PixelRoundCalcPolicy.FORCE_CEIL })
           .padding(10)
+          .opacity(0.8)
         }
         .width("100%")
         .height(200)
         .padding(20)
+        Row()
+          .width("100%")
+          .height(0.5)
+          .backgroundColor($r("app.color.divider"))
         Column() {
           Text("背景选择")
             .fontColor($r("app.color.text_h1"))
@@ -128,6 +140,10 @@ export struct CardSettingPage {
           .height(100)
         }.margin({top:30, left: 20})
         .alignItems(HorizontalAlign.Start)
+        Row()
+          .width("100%")
+          .height(0.5)
+          .backgroundColor($r("app.color.divider"))
         Column() {
           Text("背景不透明度")
             .fontColor($r("app.color.text_h1"))
@@ -140,6 +156,10 @@ export struct CardSettingPage {
             })
         }.margin({top:20, left: 20})
         .alignItems(HorizontalAlign.Start)
+        Row()
+          .width("100%")
+          .height(0.5)
+          .backgroundColor($r("app.color.divider"))
         Column() {
           Text("字体/icon颜色")
             .fontColor($r("app.color.text_h1"))
@@ -152,24 +172,44 @@ export struct CardSettingPage {
                 this.isTextBlack = true
                 this.onTxtColorChanged()
               })
+              .width("40vp")
+              .height("40vp")
+              .padding(10)
             Text("黑色")
               .fontColor($r("app.color.text_h2"))
               .fontSize(13)
-            Checkbox()
+              .padding({right:20, top: 10, bottom: 10})
+              .onClick(e => {
+                this.isTextBlack = true
+                this.onTxtColorChanged()
+              })
+            Checkbox({name: "白色"})
               .margin({left: 30})
               .select(!this.isTextBlack)
               .onClick(v => {
                 this.isTextBlack = false
                 this.onTxtColorChanged()
               })
+              .width("40vp")
+              .height("40vp")
+              .padding(10)
             Text("白色")
               .fontColor($r("app.color.text_h2"))
               .fontSize(13)
+              .padding({right:20, top: 10, bottom: 10})
+              .onClick( e => {
+                this.isTextBlack = false
+                this.onTxtColorChanged()
+              })
           }.width("100%")
           .padding({left: 10, top: 10})
         }
         .margin({top:20, left: 20})
         .alignItems(HorizontalAlign.Start)
+        Row()
+          .width("100%")
+          .height(0.5)
+          .backgroundColor($r("app.color.divider"))
         Row() {
           Text("保存")
             .textAlign(TextAlign.Center)

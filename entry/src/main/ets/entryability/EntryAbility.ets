@@ -1,24 +1,27 @@
 import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { router, window } from '@kit.ArkUI';
+import { window } from '@kit.ArkUI';
 import EntryContext from 'LibUser/src/main/ets/commons/EntryContext';
 import WindowUtils from 'LibUser/src/main/ets/commons/WindowUtils';
 import { DbManager } from '../db/DbManager';
 import bundleManager from '@ohos.bundle.bundleManager';
 import AppConfig from 'LibUser/src/main/ets/commons/AppConfig';
-import {MMKV} from '@tencent/mmkv';
+import { MMKV } from '@tencent/mmkv';
+import UmengUtils from 'LibUser/src/main/ets/commons/UmengUtils'
 import { emitter } from '@kit.BasicServicesKit';
 import { CardManager } from '../entryformability/CardManager';
 import LogUtils from '../common/LogUtils';
+import SubscriberClass from '../entryformability/SubscriberClass';
 
 import('LibUser/./src/main/ets/pages/LaunchPage')
+
 
 
 export default class EntryAbility extends UIAbility {
   private static TAG: string = "EntryAbility"
 
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
-
+    UmengUtils.previewInit(this.context)
   }
 
   private async initAppVersion() {
@@ -56,6 +59,12 @@ export default class EntryAbility extends UIAbility {
       }
       hilog.info(0x0000, 'testTag', 'Succeeded in loading the content.');
     });
+    SubscriberClass.subscribe(SubscriberClass.event_form_id, (data?: string) => {
+      if (data) {
+        LogUtils.debug("save form id success")
+        CardManager.get().saveCardId(this.context, data)
+      }
+    })
   }
 
   private initSDK() {

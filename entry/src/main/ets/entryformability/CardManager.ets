@@ -8,6 +8,7 @@ import dataPreferences from '@ohos.data.preferences';
 import EntryContext from 'LibUser/src/main/ets/commons/EntryContext'
 import { CardConfigParameter } from '../todaytodo/viewmodel/CardConfigParameter'
 import JSON from '@ohmos/json-bigint';
+import { emitter } from '@kit.BasicServicesKit'
 
 export class FormDataClass {
   title: string = "今日事"

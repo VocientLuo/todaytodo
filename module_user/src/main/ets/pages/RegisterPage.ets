@@ -67,6 +67,7 @@ export struct RegisterPage {
         .margin({ top: 10 })
         Row() {
           Checkbox()
+            .select(this.agreement)
             .onChange(checked => {
               this.agreement = checked
             })
@@ -74,6 +75,9 @@ export struct RegisterPage {
             Span("我已详细阅读并同意")
               .fontSize(12)
               .fontColor($r("app.color.text_h6"))
+              .onClick(e => {
+                this.agreement = !this.agreement
+              })
             Span("用户协议")
               .fontSize(12)
               .fontColor($r("app.color.green"))

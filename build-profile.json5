@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\Administrator\\.ohos\\config\\default_harmoney_cU5w9FSk2Z2ciGYldYWP2n0brkzXrvdDIBofmluNCy4=.cer",
-          "storePassword": "0000001B97B667F319A89DD659F3D51F909C807BE5113A144790C0C41562C599CC65F5321DCF77AC220AF5",
-          "keyAlias": "debugKey",
-          "keyPassword": "0000001B0119204277324DA233D7DCCD678BF7020855C38657869316C3F8E45577C2E86680C4C8B68AF989",
-          "profile": "C:\\Users\\Administrator\\.ohos\\config\\default_harmoney_cU5w9FSk2Z2ciGYldYWP2n0brkzXrvdDIBofmluNCy4=.p7b",
+          "storePassword": "0000001C6DB9C168B7905400568127316C68E0E5C1127699AA36DEE9624B3B2ADEE5C61F88E5990692468969",
+          "certpath": "G:/workspace/harmony/key/btk.cer",
+          "keyAlias": "beeteker",
+          "keyPassword": "0000001C8B8395A702D0340538FAA45FA5156B5245993E0D73609866F7CD35CB92EFDA85AD0C4BD4837D2D69",
+          "profile": "G:/workspace/harmony/key/btkRelease.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\Administrator\\.ohos\\config\\default_harmoney_cU5w9FSk2Z2ciGYldYWP2n0brkzXrvdDIBofmluNCy4=.p12"
+          "storeFile": "G:/workspace/harmony/key/.p12"
         }
       }
     ],

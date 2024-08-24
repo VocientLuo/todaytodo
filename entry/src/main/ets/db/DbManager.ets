@@ -145,10 +145,68 @@ export class DbManager {
     })
   }
 
+  getCountByDaySync(day: string): number {
+    let sql = `select count(*) from ${this.tbName} where createTime like '%${day}%'`
+    let res = (this.store as relationalStore.RdbStore).querySqlSync(sql)
+    let count = 0
+    LogUtils.debug(res)
+    while(res.goToNextRow()) {
+      count = res.getLong(0)
+      break
+    }
+    res.close()
+    return count
+  }
+
+  getRecordByDay(day: string): Promise<ArrayList<TodoModel>> {
+    return new Promise<ArrayList<TodoModel>>((resolve, reject) => {
+      let predicates = new relationalStore.RdbPredicates(this.tbName)
+      predicates.like("createTime", `%${day}%`)
+      predicates.orderByDesc("modifyTime")
+      if (this.store == undefined) {
+        LogUtils.error("db not init.")
+        reject()
+        return
+      }
+      (this.store as relationalStore.RdbStore).query(predicates, ['id', 'text', 'createTime', 'modifyTime', 'weight',
+        'status', 'fontStyle', 'imgUrl', 'schedule', 'wxRemind', 'repeat', 'planTime', 'deleteState', 'serverId'], (err: BusinessError, resultSet: relationalStore.ResultSet) => {
+        if (err) {
+          console.error(`Failed to query data. Code:${err.code}, message:${err.message}`);
+          return;
+        }
+        console.info(`ResultSet column names: ${resultSet.columnNames}, column count: ${resultSet.columnCount}`);
+        let data = new ArrayList<TodoModel>()
+        // resultSet是一个数据集合的游标，默认指向第-1个记录，有效的数据从0开始。
+        while (resultSet.goToNextRow()) {
+          let model = new TodoModel()
+          model.id = resultSet.getLong(resultSet.getColumnIndex('id'))
+          model.text = resultSet.getString(resultSet.getColumnIndex('text'))
+          model.createTime = resultSet.getString(resultSet.getColumnIndex('createTime'))
+          model.modifyTime = resultSet.getString(resultSet.getColumnIndex('modifyTime'))
+          model.weight = resultSet.getLong(resultSet.getColumnIndex('weight'))
+          model.status = resultSet.getLong(resultSet.getColumnIndex('status'))
+          model.fontStyle = resultSet.getString(resultSet.getColumnIndex('fontStyle'))
+          model.imgUrl = resultSet.getString(resultSet.getColumnIndex('imgUrl'))
+          model.schedule = resultSet.getLong(resultSet.getColumnIndex('schedule'))
+          model.wxRemind = resultSet.getLong(resultSet.getColumnIndex('wxRemind'))
+          model.repeat = resultSet.getLong(resultSet.getColumnIndex('repeat'))
+          model.planTime = resultSet.getString(resultSet.getColumnIndex('planTime'))
+          model.deleteState = resultSet.getLong(resultSet.getColumnIndex('deleteState'))
+          model.serverId = resultSet.getLong(resultSet.getColumnIndex('serverId'))
+          data.add(model)
+        }
+        // 释放数据集的内存
+        resultSet.close();
+        resolve(data)
+      })
+    })
+  }
+
   getRecordByStatus(status: number): Promise<ArrayList<TodoModel>> {
     return new Promise<ArrayList<TodoModel>>((resolve, reject) => {
       let predicates = new relationalStore.RdbPredicates(this.tbName)
       predicates.equalTo('status', status)
+      predicates.orderByDesc("modifyTime")
       if (this.store == undefined) {
         LogUtils.error("db not init.")
         reject()
@@ -186,6 +244,42 @@ export class DbManager {
         resolve(data)
       })
     })
+  }
+
+  getRecordByStatusSync(status: number): ArrayList<TodoModel> {
+    let predicates = new relationalStore.RdbPredicates(this.tbName)
+    predicates.equalTo('status', status)
+    predicates.orderByDesc("modifyTime")
+    let data = new ArrayList<TodoModel>()
+    if (this.store == undefined) {
+      LogUtils.error("db not init.")
+      return data
+    }
+    let resultSet = (this.store as relationalStore.RdbStore).querySync(predicates, ['id', 'text', 'createTime', 'modifyTime', 'weight',
+      'status', 'fontStyle', 'imgUrl', 'schedule', 'wxRemind', 'repeat', 'planTime', 'deleteState', 'serverId'])
+    console.info(`ResultSet column names: ${resultSet.columnNames}, column count: ${resultSet.columnCount}`);
+    // resultSet是一个数据集合的游标，默认指向第-1个记录，有效的数据从0开始。
+    while (resultSet.goToNextRow()) {
+      let model = new TodoModel()
+      model.id = resultSet.getLong(resultSet.getColumnIndex('id'))
+      model.text = resultSet.getString(resultSet.getColumnIndex('text'))
+      model.createTime = resultSet.getString(resultSet.getColumnIndex('createTime'))
+      model.modifyTime = resultSet.getString(resultSet.getColumnIndex('modifyTime'))
+      model.weight = resultSet.getLong(resultSet.getColumnIndex('weight'))
+      model.status = resultSet.getLong(resultSet.getColumnIndex('status'))
+      model.fontStyle = resultSet.getString(resultSet.getColumnIndex('fontStyle'))
+      model.imgUrl = resultSet.getString(resultSet.getColumnIndex('imgUrl'))
+      model.schedule = resultSet.getLong(resultSet.getColumnIndex('schedule'))
+      model.wxRemind = resultSet.getLong(resultSet.getColumnIndex('wxRemind'))
+      model.repeat = resultSet.getLong(resultSet.getColumnIndex('repeat'))
+      model.planTime = resultSet.getString(resultSet.getColumnIndex('planTime'))
+      model.deleteState = resultSet.getLong(resultSet.getColumnIndex('deleteState'))
+      model.serverId = resultSet.getLong(resultSet.getColumnIndex('serverId'))
+      data.add(model)
+    }
+    // 释放数据集的内存
+    resultSet.close();
+    return data;
   }
 
   getValuesBucket(model: TodoModel, isAdd: boolean = false): relationalStore.ValuesBucket {
